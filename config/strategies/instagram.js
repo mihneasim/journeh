@@ -5,30 +5,33 @@
  */
 var passport = require('passport'),
 	url = require('url'),
-	TwitterStrategy = require('passport-twitter').Strategy,
+	InstagramStrategy = require('passport-instagram').Strategy,
 	config = require('../config'),
 	users = require('../../app/controllers/users');
 
 module.exports = function() {
-	// Use twitter strategy
-	passport.use(new TwitterStrategy({
-			consumerKey: config.twitter.clientID,
-			consumerSecret: config.twitter.clientSecret,
-			callbackURL: config.twitter.callbackURL,
+	// Use instagram strategy
+	passport.use(new InstagramStrategy({
+			clientID: config.instagram.clientID,
+			clientSecret: config.instagram.clientSecret,
+			callbackURL: config.instagram.callbackURL,
 			passReqToCallback: true
 		},
-		function(req, token, tokenSecret, profile, done) {
+		function(req, accessToken, refreshToken, profile, done) {
 			// Set the provider data and include tokens
 			var providerData = profile._json;
-			providerData.token = token;
-			providerData.tokenSecret = tokenSecret;
+			providerData.accessToken = accessToken;
+			providerData.refreshToken = refreshToken;
 
 			// Create the user OAuth profile
 			var providerUserProfile = {
+				firstName: profile.name.givenName,
+				lastName: profile.name.familyName,
 				displayName: profile.displayName,
+				email: profile.emails[0].value,
 				username: profile.username,
-				provider: 'twitter',
-				providerIdentifierField: 'id_str',
+				provider: 'instagram',
+				providerIdentifierField: 'id',
 				providerData: providerData
 			};
 

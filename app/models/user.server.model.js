@@ -66,6 +66,9 @@ var UserSchema = new Schema({
 		type: String,
 		required: 'Provider is required'
 	},
+	picture: {
+		type: String
+	},
 	providerData: {},
 	additionalProvidersData: {},
 	roles: {

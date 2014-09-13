@@ -1,13 +1,14 @@
 'use strict';
 
-angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'Authentication',
-	function($scope, $http, $location, Users, Authentication) {
+angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$state', '$stateParams', 'Users', 'Authentication',
+	function($scope, $http, $location, $state, $stateParams, Users, Authentication) {
 		$scope.user = Authentication.user;
+		$scope.params = $stateParams;
 
 		// If user is not signed in then redirect back home
 		if (!$scope.user) $location.path('/');
 
-		// Check if there are additional accounts 
+		// Check if there are additional accounts
 		$scope.hasConnectedAdditionalSocialAccounts = function(provider) {
 			for (var i in $scope.user.additionalProvidersData) {
 				return true;
@@ -43,10 +44,13 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 			if (isValid){
 				$scope.success = $scope.error = null;
 				var user = new Users($scope.user);
-	
+
 				user.$update(function(response) {
 					$scope.success = true;
 					Authentication.user = response;
+					if ($scope.params && $scope.params.next) {
+						$state.go($scope.params.next);
+					}
 				}, function(response) {
 					$scope.error = response.data.message;
 				});

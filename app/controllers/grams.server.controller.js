@@ -6,6 +6,8 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
 	passport = require('passport'),
+	qs = require('querystring'),
+	request = require('request'),
 	Gram = mongoose.model('Gram'),
 	_ = require('lodash');
 
@@ -32,13 +34,30 @@ exports.list = function(req, res) {
 };
 
 exports.providerList = function(req, res) {
-	//TODO
+	var url = ('https://api.instagram.com/v1/users/' + req.user.providerData.data.id + '/media/recent/?'),
+		params = qs.stringify({
+		'access_token': req.user.providerData.accessToken
+	}),
+		results = request.get({url: url + params, json: true},
+							 function(e, r, data){
+							 	console.log(data);
+							 });
+	res.jsonp([{'id': 'test'}]);
 };
 
 
 /**
  * Gram middleware
  */
+exports.gramByID = function(req, res, next, id) {
+	Gram.findById(id).populate('user', 'displayName').exec(function(err, gram) {
+		if (err) return next(err);
+		if (!gram) return next(new Error('Failed to load instagram ' + id));
+		req.gram = gram;
+		next();
+	});
+};
+
 
 
 /**

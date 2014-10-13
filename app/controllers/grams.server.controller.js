@@ -33,16 +33,18 @@ exports.list = function(req, res) {
 	});
 };
 
-exports.providerList = function(req, res) {
-	var url = ('https://api.instagram.com/v1/users/' + req.user.providerData.data.id + '/media/recent/?'),
+exports.providerGet = function(user, done) {
+	var url = ('https://api.instagram.com/v1/users/' + user.providerData.data.id + '/media/recent/?'),
 		params = qs.stringify({
-		'access_token': req.user.providerData.accessToken
+		'access_token': user.providerData.accessToken
 	}),
 		results = request.get({url: url + params, json: true},
 							 function(e, r, data){
 							 	console.log(data);
 							 });
-	res.jsonp([{'id': 'test'}]);
+	//if (done)
+		//done();
+	return results;
 };
 
 

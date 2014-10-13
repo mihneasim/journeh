@@ -11,8 +11,8 @@ module.exports = function(app) {
 	app.route('/grams')
 		.get(grams.list);
 
-	app.route('/grams/grab')
-		.get(grams.providerList);
+	//app.route('/grams/grab')
+		//.get(grams.providerList);
 
 	app.route('/grams/:gramId')
 		.get(grams.read);

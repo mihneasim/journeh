@@ -49,18 +49,18 @@ describe('Gram Controller Unit Tests:', function() {
         done();
     });
 
-    it("should make initial call to instagram recent media", function(done) {
+    it('should make initial call to instagram recent media', function(done) {
         var results,
             expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?access_token=imatoken';
         gramController.should.be.ok;
-        results = gramController.providerGet(user);
+        results = gramController.pullFeed(user.id);
         requestStub.get.calledOnce.should.be.ok;
         requestStub.get.calledWith({url: expectedCall, json: true}).should.be.ok;
 
         done();
     });
 
-    it("should call for older media on instagram", function(done) {
-        var expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?max_id=123access_token=imatoken';
+    //it('should call for older media on instagram', function(done) {
+        //var expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?max_id=123access_token=imatoken';
 
 });

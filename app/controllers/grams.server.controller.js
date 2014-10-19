@@ -9,7 +9,9 @@ var mongoose = require('mongoose'),
 	qs = require('querystring'),
 	request = require('request'),
 	Gram = mongoose.model('Gram'),
-	_ = require('lodash');
+	User = mongoose.model('User'),
+	_ = require('lodash'),
+	config = require('../../config/config');
 
 /**
  * Show the current gram
@@ -22,6 +24,8 @@ exports.read = function(req, res) {
  * List of Grams
  */
 exports.list = function(req, res) {
+	req.app.queue.publish(config.queue.jobTypes.instagramFeed, {userId: req.user.id});
+	console.error("pushed", config.queue.jobTypes.instagramFeed);
 	Gram.find({user: req.user}).sort('-created').exec(function(err, grams) {
 		if (err) {
 			return res.status(400).send({
@@ -33,18 +37,21 @@ exports.list = function(req, res) {
 	});
 };
 
-exports.providerGet = function(user, done) {
-	var url = ('https://api.instagram.com/v1/users/' + user.providerData.data.id + '/media/recent/?'),
+exports.pullFeed = function(userId, done) {
+	var user = User.findById(userId),
+		url = ('https://api.instagram.com/v1/users/' + user.providerData.data.id + '/media/recent/?'),
 		params = qs.stringify({
 		'access_token': user.providerData.accessToken
-	}),
-		results = request.get({url: url + params, json: true},
-							 function(e, r, data){
-							 	console.log(data);
-							 });
-	//if (done)
-		//done();
-	return results;
+	});
+	console.log("om nom nom", url);
+
+		//results = request.get({url: url + params, json: true},
+							 //function(e, r, data){
+								 //console.log(data);
+							 //});
+	if (done)
+		done();
+	//return results;
 };
 
 

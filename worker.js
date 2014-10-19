@@ -15,27 +15,44 @@ var init = require('./config/init')(),
 // Bootstrap db connection
 var db = mongoose.connect(config.db, function(err) {
 	if (err) {
-		console.error('\x1b[31m', 'Could not connect to MongoDB!');
+		console.error('\x1b[31m', 'Worker could not connect to MongoDB!');
 		console.log(err);
 	}
 });
 
 var queue = jackrabbit(config.queue.server);
-queue.on('connected', function() {
-  queue.create(config.queue.jobTypes.instagramFeed, { prefetch: 2 });
-});
+
 
 // Init the express application
 var app = require('./config/express')(db, queue);
 
+var gramController = require('./app/controllers/grams');
+
+var pullFeedJobs = config.queue.jobTypes.instagramFeed,
+	jobFeedHandler = function(job, ack){
+		ack();
+		console.log('received job', job.userId);
+		//gramController.pullFeed(job.userId);
+	},
+	queueCreatedCallback = function () {
+		queue.handle(pullFeedJobs, jobFeedHandler);
+	};
+
+queue.on('connected', function() {
+	queue.create(pullFeedJobs, {prefetch: 2}, queueCreatedCallback);
+});
+
+
 // Bootstrap passport config
-require('./config/passport')();
+//require('./config/passport')();
 
 // Start the app by listening on <port>
-app.listen(config.port);
+//app.listen(config.port);
 
 // Expose app
 exports = module.exports = app;
 
 // Logging initialization
-console.log('MEAN.JS application started on port ' + config.port);
+console.log('Worker started');
+
+

@@ -1,0 +1,5 @@
+* rabbitmq reqs and configs
+* worker.js
+
+
+app.set('trust proxy')

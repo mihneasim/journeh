@@ -11,12 +11,9 @@ module.exports = function(app) {
 	app.route('/grams')
 		.get(grams.list);
 
-	//app.route('/grams/grab')
-		//.get(grams.providerList);
-
 	app.route('/grams/:gramId')
 		.get(grams.read);
 
 	// Finish by binding the gram middleware
-	app.param('gramId', grams.gramByID);
+	//app.param('gramId', grams.gramByID);
 };

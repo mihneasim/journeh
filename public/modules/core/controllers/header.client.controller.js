@@ -20,9 +20,11 @@ angular.module('core').controller('HeaderController', ['$rootScope', '$scope', '
 		    if(error.reason === 'missing_email'){
 				// we need user to fill-in profile data missing from social service
 				$state.go('profile', {'reason': 'missing_email', 'next': error.next});
-		    } else {
-
 		    }
+			   //else {
+
+
+			//}
 		});
 
 

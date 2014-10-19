@@ -2,6 +2,12 @@
 
 module.exports = {
 	db: 'mongodb://localhost/journeh-test',
+	queue: {
+			server: 'amqp://localhost',
+			jobTypes: {
+				instagramFeed: "test.instagram.feed"
+			}
+	},
 	port: 3001,
 	app: {
 		title: 'journeh - Test Environment'

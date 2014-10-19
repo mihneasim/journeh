@@ -4,7 +4,8 @@
  */
 var init = require('./config/init')(),
 	config = require('./config/config'),
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+	jackrabbit = require('jackrabbit');
 
 /**
  * Main application entry file.
@@ -19,8 +20,10 @@ var db = mongoose.connect(config.db, function(err) {
 	}
 });
 
+var queue = jackrabbit(config.queue.server);
+
 // Init the express application
-var app = require('./config/express')(db);
+var app = require('./config/express')(db, queue);
 
 // Bootstrap passport config
 require('./config/passport')();

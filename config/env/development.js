@@ -2,6 +2,12 @@
 
 module.exports = {
 	db: 'mongodb://localhost/journeh-dev',
+	queue: {
+			server: 'amqp://localhost',
+			jobTypes: {
+				instagramFeed: "instagram.feed"
+			}
+	},
 	app: {
 		title: 'journeh - Development Environment'
 	},

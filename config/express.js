@@ -20,7 +20,7 @@ var express = require('express'),
 	consolidate = require('consolidate'),
 	path = require('path');
 
-module.exports = function(db) {
+module.exports = function(db, queue) {
 	// Initialize express app
 	var app = express();
 
@@ -36,6 +36,9 @@ module.exports = function(db) {
 	app.locals.facebookAppId = config.facebook.clientID;
 	app.locals.jsFiles = config.getJavaScriptAssets();
 	app.locals.cssFiles = config.getCSSAssets();
+
+	// AMQP
+	app.queue = queue;
 
 	// Passing the request url to environment locals
 	app.use(function(req, res, next) {

@@ -3,7 +3,7 @@
 module.exports = {
 	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://localhost/journeh',
 	queue: {
-			server: process.env.RABBITMQ_URL || 'amqp://localhost',
+			server: process.env.RABBITMQ_URL || 'amqp://localhost:5672',
 			jobTypes: {
 				instagramFeed: 'dev.instagram.feed'
 			}

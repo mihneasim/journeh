@@ -24,8 +24,10 @@ exports.read = function(req, res) {
  * List of Grams
  */
 exports.list = function(req, res) {
-	req.app.queue.publish(config.queue.jobTypes.instagramFeed, {userId: req.user.id});
-	console.error("pushed", config.queue.jobTypes.instagramFeed);
+	req.app.mqueue.publish(config.queue.jobTypes.instagramFeed,
+						   {userId: req.user.id},
+						   {type: "pullFeed", deliveryMode: 2});
+	console.log('pushed', config.queue.jobTypes.instagramFeed);
 	Gram.find({user: req.user}).sort('-created').exec(function(err, grams) {
 		if (err) {
 			return res.status(400).send({
@@ -43,7 +45,7 @@ exports.pullFeed = function(userId, done) {
 		params = qs.stringify({
 		'access_token': user.providerData.accessToken
 	});
-	console.log("om nom nom", url);
+	console.log('om nom nom', url);
 
 		//results = request.get({url: url + params, json: true},
 							 //function(e, r, data){

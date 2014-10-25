@@ -5,7 +5,7 @@
 var init = require('./config/init')(),
 	config = require('./config/config'),
 	mongoose = require('mongoose'),
-	jackrabbit = require('jackrabbit');
+	amqp = require('amqp');
 
 /**
  * Main application entry file.
@@ -20,13 +20,16 @@ var db = mongoose.connect(config.db, function(err) {
 	}
 });
 
-var queue = jackrabbit(config.queue.server);
-queue.on('connected', function() {
-  queue.create(config.queue.jobTypes.instagramFeed, { prefetch: 2 });
+var queue,
+	mqueue = amqp.createConnection({url: config.queue.server});
+
+mqueue.on('ready', function() {
+		queue = mqueue.queue(config.queue.jobTypes.instagramFeed, {durable: true});
+		console.log('Queue instagramFeed is open');
 });
 
 // Init the express application
-var app = require('./config/express')(db, queue);
+var app = require('./config/express')(db, mqueue);
 
 // Bootstrap passport config
 require('./config/passport')();

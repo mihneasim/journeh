@@ -3,7 +3,7 @@
 module.exports = {
 	db: 'mongodb://localhost/journeh-dev',
 	queue: {
-			server: 'amqp://localhost',
+			server: 'amqp://localhost:5672',
 			jobTypes: {
 				instagramFeed: 'instagram.feed'
 			}

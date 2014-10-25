@@ -5,7 +5,7 @@
 var init = require('./config/init')(),
 	config = require('./config/config'),
 	mongoose = require('mongoose'),
-	jackrabbit = require('jackrabbit');
+	amqp = require('amqp');
 
 /**
  * Main application entry file.
@@ -20,27 +20,33 @@ var db = mongoose.connect(config.db, function(err) {
 	}
 });
 
-var queue = jackrabbit(config.queue.server);
-
+var queue,
+	mqueue = amqp.createConnection({url: config.queue.server});
+mqueue.on('error', function(e) {
+	  console.log("connection error...", e);
+});
 
 // Init the express application
-var app = require('./config/express')(db, queue);
+var app = require('./config/express')(db, mqueue);
 
 var gramController = require('./app/controllers/grams');
 
-var pullFeedJobs = config.queue.jobTypes.instagramFeed,
-	jobFeedHandler = function(job, ack){
-		ack();
-		console.log('received job', job.userId);
-		//gramController.pullFeed(job.userId);
-	},
-	queueCreatedCallback = function () {
-		queue.handle(pullFeedJobs, jobFeedHandler);
-	};
+mqueue.on('ready', function() {
+		queue = mqueue.queue(config.queue.jobTypes.instagramFeed, {durable: true});
+		console.log('Queue instagramFeed is open');
+		queue.subscribe({
+				ack: true, prefetchCount: 1,
+			},
+			function (message, headers, deliveryInfo, messageObject) {
+				console.log('received job', message.userId);
+				//gramController.pullFeed(job.userId);
+				setTimeout(function() {messageObject.acknowledge(false);
+										console.log('ack');
+				}, 	10000);
+			}
+		);
+})
 
-queue.on('connected', function() {
-	queue.create(pullFeedJobs, {prefetch: 2}, queueCreatedCallback);
-});
 
 
 // Bootstrap passport config
@@ -54,5 +60,3 @@ exports = module.exports = app;
 
 // Logging initialization
 console.log('Worker started');
-
-

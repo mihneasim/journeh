@@ -20,7 +20,7 @@ var express = require('express'),
 	consolidate = require('consolidate'),
 	path = require('path');
 
-module.exports = function(db, queue) {
+module.exports = function(db, mqueue) {
 	// Initialize express app
 	var app = express();
 
@@ -38,7 +38,7 @@ module.exports = function(db, queue) {
 	app.locals.cssFiles = config.getCSSAssets();
 
 	// AMQP
-	app.queue = queue;
+	app.mqueue = mqueue;
 
 	// Passing the request url to environment locals
 	app.use(function(req, res, next) {

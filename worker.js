@@ -39,21 +39,13 @@ mqueue.on('ready', function() {
 			},
 			function (message, headers, deliveryInfo, messageObject) {
 				console.log('received job', message.userId);
-				//gramController.pullFeed(job.userId);
-				setTimeout(function() {messageObject.acknowledge(false);
-										console.log('ack');
-				}, 	10000);
+				gramController.pullFeed(message.userId);
+				messageObject.acknowledge(false);
+				console.log('ack');
 			}
 		);
-})
+});
 
-
-
-// Bootstrap passport config
-//require('./config/passport')();
-
-// Start the app by listening on <port>
-//app.listen(config.port);
 
 // Expose app
 exports = module.exports = app;

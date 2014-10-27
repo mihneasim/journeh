@@ -41,21 +41,27 @@ exports.list = function(req, res) {
 
 exports.pullFeed = function(userId, done) {
 
-	User.findById(userId).exec(function (err, user) {
-		var url = ('https://api.instagram.com/v1/users/' +
+	User.findOne({_id: userId}, "providerData", function (err, user) {
+		var url, params, results;
+		if (err) {
+			console.log(err);
+			if (done)
+				done({error: err});
+		} else {
+			url = ('https://api.instagram.com/v1/users/' +
 				   user.providerData.data.id + '/media/recent/?'),
 			params = qs.stringify({
 				'access_token': user.providerData.accessToken
 			});
-		console.log('om nom nom', url+params);
+			console.log('om nom nom', url+params);
 
-		//results = request.get({url: url + params, json: true},
-							 //function(e, r, data){
-								 //console.log(data);
-							 //});
-		if (done)
-			done();
-		//return results;
+			results = request.get({url: url + params, json: true},
+								 function(e, r, data){
+									 console.log(data);
+								 });
+			if (done)
+				done(results);
+		}
 	});
 };
 

@@ -6,7 +6,6 @@
 var should = require('should'),
     request = require('supertest'),
     mongoose = require('mongoose'),
-    fakeServer = require('sinon/lib/sinon/util/fake_server'),
     User = mongoose.model('User'),
     Gram = mongoose.model('Gram'),
     proxyquire = require('proxyquire'),
@@ -31,10 +30,13 @@ describe('Gram Controller Unit Tests:', function() {
             email: 'test@test.com',
             username: 'username',
             password: 'password',
-            providerData: {'data': {'id': 1101}, accessToken: 'imatoken'}
+            providerData: {'data': {'id': 1101}, accessToken: 'imatoken'},
+            provider: 'instagram'
         });
 
-        user.save(function() {
+        user.save(function(err, user, affected) {
+            if (err)
+                console.log("Error", err);
             done();
         });
     });
@@ -50,11 +52,10 @@ describe('Gram Controller Unit Tests:', function() {
     });
 
     it('should make initial call to instagram recent media', function(done) {
-        var results,
-            expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?access_token=imatoken';
+        var expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?access_token=imatoken';
         gramController.should.be.ok;
-        results = gramController.pullFeed(user.id);
-        requestStub.get.calledOnce.should.be.ok;
+        gramController.pullFeed(user.id);
+        requestStub.get.called.should.be.ok;
         requestStub.get.calledWith({url: expectedCall, json: true}).should.be.ok;
 
         done();

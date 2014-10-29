@@ -37,10 +37,10 @@ var handleMediaResponse = function(user) {
 					coordinates: [parseFloat(remote.location.longitude), parseFloat(remote.location.latitude)]
 				};
 			console.log(gram, user);
-			gram.save(function (er, ob, affected){console.log(er);});
+			gram.save();
 		}
 	};
-}
+};
 
 /**
  * Show the current gram
@@ -70,7 +70,7 @@ exports.list = function(req, res) {
 
 exports.pullFeed = function(userId, done) {
 
-	User.findOne({_id: userId}, "providerData", function (err, user) {
+	User.findOne({_id: userId}, 'providerData', function (err, user) {
 		var url, params, results;
 		if (err) {
 			console.log(err);
@@ -79,9 +79,7 @@ exports.pullFeed = function(userId, done) {
 		} else {
 			url = ('https://api.instagram.com/v1/users/' +
 				   user.providerData.data.id + '/media/recent/?'),
-			params = {
-				'access_token': user.providerData.accessToken
-			};
+			params = {access_token: user.providerData.accessToken};
 			Gram.find({user: user}).sort('-instagramId').limit(1).select('instagramId').exec(function (errGram, results) {
 				if (errGram === null && results.length) {
 					params.min_id = results[0].instagramId;

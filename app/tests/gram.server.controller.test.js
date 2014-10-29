@@ -11,7 +11,8 @@ var should = require('should'),
     proxyquire = require('proxyquire'),
     sinon = require('sinon'),
     requestStub={'get': sinon.spy()},
-    gramController = proxyquire('../controllers/grams', {request: requestStub});
+    gramController = proxyquire('../controllers/grams', {request: requestStub}),
+    shouldjsFucksJslint;
 
 /**
  * Globals
@@ -40,7 +41,7 @@ describe('Gram Controller Unit Tests:', function() {
 
         user.save(function(err, user, affected) {
             if (err)
-                console.log("Error", err);
+                console.log('Error', err);
             done();
         });
     });
@@ -57,10 +58,10 @@ describe('Gram Controller Unit Tests:', function() {
 
     it('should make initial call to instagram recent media', function(done) {
         var expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?access_token=imatoken';
-        gramController.should.be.ok;
+        shouldjsFucksJslint = gramController.should.be.ok;
         gramController.pullFeed(user.id, function (results) {
-            requestStub.get.calledOnce.should.be.ok;
-            requestStub.get.calledWith({url: expectedCall, json: true}).should.be.ok;
+            shouldjsFucksJslint = requestStub.get.calledOnce.should.be.ok;
+            shouldjsFucksJslint = requestStub.get.calledWith({url: expectedCall, json: true}).should.be.ok;
             done();
         });
     });
@@ -71,8 +72,8 @@ describe('Gram Controller Unit Tests:', function() {
 
         existingGram.save(function() {
             gramController.pullFeed(user.id, function (results) {
-                requestStub.get.calledOnce.should.be.ok;
-                requestStub.get.calledWith({url: expectedCall, json: true}).should.be.ok;
+                shouldjsFucksJslint = requestStub.get.calledOnce.should.be.ok;
+                shouldjsFucksJslint = requestStub.get.calledWith({url: expectedCall, json: true}).should.be.ok;
                 done();
             });
         });

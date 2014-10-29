@@ -13,6 +13,35 @@ var mongoose = require('mongoose'),
 	_ = require('lodash'),
 	config = require('../../config/config');
 
+var handleMediaResponse = function(user) {
+	return function (err, response, results) {
+		var gram, remote, now = new Date();
+		for(var ind=0; ind < results.data.length; ind++) {
+			remote = results.data[ind];
+			gram = new Gram({
+				user: user,
+				created: new Date(remote.created_time*1000),
+				pulled: now,
+				instagramId: remote.id,
+				link: remote.link,
+				mediaType: remote.type,
+				caption: remote.caption.text,
+				instagramUserId: remote.user.id,
+				instagramData: remote
+			});
+			if (remote.location.name)
+				gram.locationName = remote.location.name;
+			if (remote.location.longitude)
+				gram.location = {
+					type: 'Point',
+					coordinates: [parseFloat(remote.location.longitude), parseFloat(remote.location.latitude)]
+				};
+			console.log(gram, user);
+			gram.save(function (er, ob, affected){console.log(er);});
+		}
+	};
+}
+
 /**
  * Show the current gram
  */
@@ -50,17 +79,20 @@ exports.pullFeed = function(userId, done) {
 		} else {
 			url = ('https://api.instagram.com/v1/users/' +
 				   user.providerData.data.id + '/media/recent/?'),
-			params = qs.stringify({
+			params = {
 				'access_token': user.providerData.accessToken
-			});
-			console.log('om nom nom', url+params);
+			};
+			Gram.find({user: user}).sort('-instagramId').limit(1).select('instagramId').exec(function (errGram, results) {
+				if (errGram === null && results.length) {
+					params.min_id = results[0].instagramId;
+				}
+				params = qs.stringify(params);
+				console.log('om nom nom', url+params);
 
-			results = request.get({url: url + params, json: true},
-								 function(e, r, data){
-									 console.log(data);
-								 });
-			if (done)
-				done(results);
+				results = request.get({url: url + params, json: true}, handleMediaResponse(user));
+				if (done)
+					done(results);
+			});
 		}
 	});
 };

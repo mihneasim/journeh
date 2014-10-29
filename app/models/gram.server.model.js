@@ -17,14 +17,17 @@ var GramSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	title: {
+        instagramId: {
+                type: String
+	},
+	link: {
 		type: String,
 		default: '',
-		trim: true,
+		trim: true
 	},
 	mediaType: {
 		type: String,
-		default: 'image',
+		default: 'image'
 	},
 	caption: {
 		type: String,
@@ -32,13 +35,21 @@ var GramSchema = new Schema({
 		trim: true
 	},
         instagramUserId: {
-                type: Number,
+                type: Number
 	},
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
 	instagramData: {},
+	locationName: {
+		type: String
+	},
+	location: {
+		type: {type: String},
+		coordinates: [],
+	}
 });
 
+GramSchema.index({ user: 1, instagramId: -1 }, {unique: true});
 mongoose.model('Gram', GramSchema);

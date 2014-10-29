@@ -22,6 +22,10 @@ var user, gram;
  * Unit tests
  */
 describe('Gram Controller Unit Tests:', function() {
+    beforeEach(function(done) {
+        requestStub.get.reset();
+        done();
+    });
     before(function(done) {
         user = new User({
             firstName: 'Full',
@@ -61,7 +65,17 @@ describe('Gram Controller Unit Tests:', function() {
         });
     });
 
-    //it('should call for older media on instagram', function(done) {
-        //var expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?max_id=123access_token=imatoken';
+    it('should call instagram recent media with min_id', function(done) {
+        var expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?access_token=imatoken&min_id=666',
+            existingGram = new Gram({instagramId: 666, user: user});
+
+        existingGram.save(function() {
+            gramController.pullFeed(user.id, function (results) {
+                requestStub.get.calledOnce.should.be.ok;
+                requestStub.get.calledWith({url: expectedCall, json: true}).should.be.ok;
+                done();
+            });
+        });
+    });
 
 });

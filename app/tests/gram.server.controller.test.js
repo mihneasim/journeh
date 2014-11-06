@@ -10,7 +10,7 @@ var should = require('should'),
     Gram = mongoose.model('Gram'),
     proxyquire = require('proxyquire'),
     sinon = require('sinon'),
-    requestStub={'get': sinon.spy()},
+    requestStub={'get': sinon.stub()},
     gramController = proxyquire('../controllers/grams', {request: requestStub}),
     shouldjsFucksJslint;
 
@@ -25,6 +25,7 @@ var user, gram;
 describe('Gram Controller Unit Tests:', function() {
     beforeEach(function(done) {
         requestStub.get.reset();
+        requestStub.get.onCall(0).callsArgWith(1, null, null, {pagination: {}, data: []});
         done();
     });
     before(function(done) {
@@ -74,6 +75,22 @@ describe('Gram Controller Unit Tests:', function() {
             gramController.pullFeed(user.id, function (results) {
                 shouldjsFucksJslint = requestStub.get.calledOnce.should.be.ok;
                 shouldjsFucksJslint = requestStub.get.calledWith({url: expectedCall, json: true}).should.be.ok;
+                done();
+            });
+        });
+    });
+
+    it('should ask next pages when more', function(done) {
+        var expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?access_token=imatoken&min_id=666',
+            existingGram = new Gram({instagramId: 666, user: user});
+
+        requestStub.get.onCall(0).callsArgWith(1, null, null, {pagination: {next_url: "http://second"}, data: []});
+        requestStub.get.onCall(1).callsArgWith(1, null, null, {pagination: {next_url: "http://third"}, data: []});
+        requestStub.get.onCall(2).callsArgWith(1, null, null, {pagination: {}, data: []});
+
+        existingGram.save(function() {
+            gramController.pullFeed(user.id, function (results) {
+                requestStub.get.callCount.should.equal(3);
                 done();
             });
         });

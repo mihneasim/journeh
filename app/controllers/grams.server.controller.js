@@ -13,7 +13,7 @@ var mongoose = require('mongoose'),
 	_ = require('lodash'),
 	config = require('../../config/config');
 
-var handleMediaResponse = function(user) {
+var handleMediaResponse = function(user, done) {
 	return function (err, response, results) {
 		var gram, remote, now = new Date();
 		for(var ind=0; ind < results.data.length; ind++) {
@@ -38,6 +38,12 @@ var handleMediaResponse = function(user) {
 				};
 			console.log(gram, user);
 			gram.save();
+		}
+		if (results.pagination.next_url) {
+			request.get({url: results.pagination.next_url, json: true}, handleMediaResponse(user, done));
+		} else {
+			if (done)
+				done();
 		}
 	};
 };
@@ -87,9 +93,7 @@ exports.pullFeed = function(userId, done) {
 				params = qs.stringify(params);
 				console.log('om nom nom', url+params);
 
-				results = request.get({url: url + params, json: true}, handleMediaResponse(user));
-				if (done)
-					done(results);
+				request.get({url: url + params, json: true}, handleMediaResponse(user, done));
 			});
 		}
 	});

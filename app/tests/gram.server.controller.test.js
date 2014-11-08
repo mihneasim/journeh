@@ -84,8 +84,8 @@ describe('Gram Controller Unit Tests:', function() {
         var expectedCall = 'https://api.instagram.com/v1/users/1101/media/recent/?access_token=imatoken&min_id=666',
             existingGram = new Gram({instagramId: 666, user: user});
 
-        requestStub.get.onCall(0).callsArgWith(1, null, null, {pagination: {next_url: "http://second"}, data: []});
-        requestStub.get.onCall(1).callsArgWith(1, null, null, {pagination: {next_url: "http://third"}, data: []});
+        requestStub.get.onCall(0).callsArgWith(1, null, null, {pagination: {next_url: 'http://second'}, data: []});
+        requestStub.get.onCall(1).callsArgWith(1, null, null, {pagination: {next_url: 'http://third'}, data: []});
         requestStub.get.onCall(2).callsArgWith(1, null, null, {pagination: {}, data: []});
 
         existingGram.save(function() {

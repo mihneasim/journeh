@@ -25,13 +25,14 @@ var handleMediaResponse = function(user, done) {
 				instagramId: remote.id,
 				link: remote.link,
 				mediaType: remote.type,
-				caption: remote.caption.text,
 				instagramUserId: remote.user.id,
 				instagramData: remote
 			});
-			if (remote.location.name)
+			if (remote.caption && remote.caption.text)
+				gram.caption = remote.caption.text;
+			if (remote.location && remote.location.name)
 				gram.locationName = remote.location.name;
-			if (remote.location.longitude)
+			if (remote.location && remote.location.longitude)
 				gram.location = {
 					type: 'Point',
 					coordinates: [parseFloat(remote.location.longitude), parseFloat(remote.location.latitude)]
@@ -59,9 +60,11 @@ exports.read = function(req, res) {
  * List of Grams
  */
 exports.list = function(req, res) {
+
 	req.app.mqueue.publish(config.queue.jobTypes.instagramFeed,
 						   {userId: req.user.id},
 						   {type: 'pullFeed', deliveryMode: 2});
+
 	console.log('pushed', config.queue.jobTypes.instagramFeed);
 	Gram.find({user: req.user}).sort('-created').exec(function(err, grams) {
 		if (err) {

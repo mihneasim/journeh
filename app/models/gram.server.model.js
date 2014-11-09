@@ -42,6 +42,16 @@ var GramSchema = new Schema({
 		ref: 'User'
 	},
 	instagramData: {},
+	images: {
+		low_resolution: { url: String, width: Number, height: Number },
+		thumbnail: { url: String, width: Number, height: Number },
+		standard_resolution: { url: String, width: Number, height: Number }
+	},
+	videos: {
+		low_bandwith: { url: String, width: Number, height: Number },
+		low_resolution: { url: String, width: Number, height: Number },
+		standard_resolution: { url: String, width: Number, height: Number }
+	},
 	locationName: {
 		type: String
 	},

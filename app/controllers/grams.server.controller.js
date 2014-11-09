@@ -26,7 +26,9 @@ var handleMediaResponse = function(user, done) {
 				link: remote.link,
 				mediaType: remote.type,
 				instagramUserId: remote.user.id,
-				instagramData: remote
+				instagramData: remote,
+				videos: remote.videos,
+				images: remote.images
 			});
 			if (remote.caption && remote.caption.text)
 				gram.caption = remote.caption.text;

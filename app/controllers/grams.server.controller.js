@@ -60,13 +60,15 @@ exports.read = function(req, res) {
  * List of Grams
  */
 exports.list = function(req, res) {
+	var page = +req.query.page || 1,
+		limit = +req.query.limit || 20;
 
-	req.app.mqueue.publish(config.queue.jobTypes.instagramFeed,
-						   {userId: req.user.id},
-						   {type: 'pullFeed', deliveryMode: 2});
+	//req.app.mqueue.publish(config.queue.jobTypes.instagramFeed,
+						   //{userId: req.user.id},
+						   //{type: 'pullFeed', deliveryMode: 2});
 
 	console.log('pushed', config.queue.jobTypes.instagramFeed);
-	Gram.find({user: req.user}).sort('-created').exec(function(err, grams) {
+	Gram.find({user: req.user}).sort('-created').limit(limit).skip((page - 1) * limit).exec(function(err, grams) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

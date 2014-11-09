@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+	Schema = mongoose.Schema,
+	URLSlugs = require('mongoose-url-slugs');
 
 /**
  * Story Schema
@@ -19,10 +20,6 @@ var StorySchema = new Schema({
 		default: '',
 		trim: true,
 		required: 'Title cannot be blank'
-	},
-	slug: {
-		type: String,
-		default: '',
 	},
 	content: {
 		type: String,
@@ -44,5 +41,7 @@ var StorySchema = new Schema({
 
 StorySchema.index({ user: 1 });
 StorySchema.index({ tags: 1 });
-StorySchema.index({ slug: 1 }, { unique: true });
+
+StorySchema.plugin(URLSlugs('title'));
+
 mongoose.model('Story', StorySchema);

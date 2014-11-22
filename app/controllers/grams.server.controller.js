@@ -69,7 +69,7 @@ exports.list = function(req, res) {
 						   //{userId: req.user.id},
 						   //{type: 'pullFeed', deliveryMode: 2});
 
-	console.log('pushed', config.queue.jobTypes.instagramFeed);
+	//console.log('pushed', config.queue.jobTypes.instagramFeed);
 	Gram.find({user: req.user}).sort('-created').limit(limit).skip((page - 1) * limit).exec(function(err, grams) {
 		if (err) {
 			return res.status(400).send({

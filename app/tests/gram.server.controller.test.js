@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 var should = require('should'),
-    request = require('supertest'),
     mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Gram = mongoose.model('Gram'),
+    Q = require('q'),
     proxyquire = require('proxyquire'),
     sinon = require('sinon'),
     requestStub={'get': sinon.stub()},
@@ -93,6 +93,27 @@ describe('Gram Controller Unit Tests:', function() {
                 requestStub.get.callCount.should.equal(3);
                 done();
             });
+        });
+    });
+
+    it('should return only grams of loggedin user', function(done) {
+        var req = sinon.stub(),
+            res = sinon.spy(),
+            returned;
+        Q.all([
+            Q.nfcall((new Gram({instagramId: 666, user: user})).save),
+            Q.nfcall((new Gram({instagramId: 999, user: user})).save),
+            Q.nfcall((new Gram({instagramId: 333, user: null})).save),
+            Q.nfcall((new Gram({instagramId: 1333, user: null})).save),
+        ]).then(function(){
+            req.user = user;
+            gramController.list(req, res);
+            res.jsonp.callCount.should.equal(1);
+            returned = res.args[0];
+            returned.should.have.lengthOf(2);
+        }).then(done, function(err){
+            console.log('This is the truth my dear friend', err);
+            done();
         });
     });
 

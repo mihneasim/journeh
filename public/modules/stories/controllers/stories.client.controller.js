@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('stories').controller('StoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Stories',
-	function($scope, $stateParams, $location, Authentication, Stories) {
+angular.module('stories').controller('StoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Stories', 'Grams',
+	function($scope, $stateParams, $location, Authentication, Stories, Grams) {
 		$scope.authentication = Authentication;
 
 		$scope.create = function() {
@@ -46,11 +46,15 @@ angular.module('stories').controller('StoriesController', ['$scope', '$statePara
 		};
 
 		$scope.find = function() {
-			$scope.stories = stories.query();
+			$scope.stories = Stories.query();
+		};
+
+		$scope.initCreate = function() {
+			$scope.grams = Grams.query();
 		};
 
 		$scope.findOne = function() {
-			$scope.story = stories.get({
+			$scope.story = Stories.get({
 				storyId: $stateParams.storyId
 			});
 		};

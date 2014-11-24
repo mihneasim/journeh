@@ -6,6 +6,8 @@ var ApplicationConfiguration = (function() {
 	var applicationModuleName = 'journeh';
 	var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate',  'ngSanitize',  'ui.router', 'ui.bootstrap', 'ui.utils'];
 
+	applicationModuleVendorDependencies.push('bgf.paginateAnything');
+
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {
 		// Create angular module

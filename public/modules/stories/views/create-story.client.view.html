@@ -13,6 +13,11 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="content">Pick the pieces</label>
+					<bgf-pagination
+						collection="grams"
+						template-url="/modules/core/views/parts/paginate-anything.html"
+						url="'http://localhost:3000/grams'">
+					</bgf-pagination>
 					<div style="padding: 10px; float: left;" ng-repeat="gram in grams track by gram._id"><img ng-src="{{gram.images.thumbnail.url}}" /></div>
 				</div>
 				<div class="form-group">

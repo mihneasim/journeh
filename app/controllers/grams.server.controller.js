@@ -5,9 +5,9 @@
  */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
-	passport = require('passport'),
 	qs = require('querystring'),
 	request = require('request'),
+	paginate = require('node-paginate-anything'),
 	Gram = mongoose.model('Gram'),
 	User = mongoose.model('User'),
 	_ = require('lodash'),
@@ -62,21 +62,25 @@ exports.read = function(req, res) {
  * List of Grams
  */
 exports.list = function(req, res) {
-	var page = +req.query.page || 1,
-		limit = +req.query.limit || 20;
-
 	//req.app.mqueue.publish(config.queue.jobTypes.instagramFeed,
 						   //{userId: req.user.id},
 						   //{type: 'pullFeed', deliveryMode: 2});
 
 	//console.log('pushed', config.queue.jobTypes.instagramFeed);
-	Gram.find({user: req.user}).sort('-created').limit(limit).skip((page - 1) * limit).exec(function(err, grams) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
+	Gram.count({user: req.user}, function (err, totalItems) {
+		var queryParameters = paginate(req, res, totalItems, 20);
+		if (!totalItems) {
+			res.jsonp([]);
 		} else {
-			res.jsonp(grams);
+			Gram.find({user: req.user}).sort('-created').limit(queryParameters.limit).skip(queryParameters.skip).exec(function(err, grams) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+					res.jsonp(grams);
+				}
+			});
 		}
 	});
 };

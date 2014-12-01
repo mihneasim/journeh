@@ -11,23 +11,37 @@
 						<input name="title" type="text" data-ng-model="title" id="title" class="form-control" placeholder="Title" required>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" ng-show="step==1">
 					<label class="control-label" for="content">Pick the pieces</label>
 					<bgf-pagination
 						collection="grams"
 						template-url="/modules/core/views/parts/paginate-anything.html"
 						url="'http://localhost:3000/grams'">
 					</bgf-pagination>
-					<div style="padding: 10px; float: left;" ng-repeat="gram in grams track by gram._id"><img ng-src="{{gram.images.thumbnail.url}}" /></div>
+					<div style="padding: 10px; float: left;" ng-repeat="gram in grams track by gram._id"><img ng-click="toggleGram(gram)" ng-src="{{gram.images.thumbnail.url}}" /></div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" ng-show="step==1">
+					<label class="control-label">Selected</label>
+					<div style="padding: 10px; width: 600px; height: 180px;" ng-repeat="gram in selectedGrams track by gram._id">
+						<img ng-src="{{gram.images.thumbnail.url}}" style="padding: 10px; float: left;" />
+						<textarea style="clear: both;">{{gram.caption}}</textarea>
+						<span ng-click="moveUp(gram)">&#x25B2;</span>
+						<span ng-click="moveDown(gram)">&#x25BC;</span>
+						<span ng-click="toggleGram(gram)">X</span>
+					</div>
+				</div>
+				<div class="form-group" ng-show="step==1">
+					<span ng-click="compileBody(); goTo(2)">final step</span>
+				</div>
+				<div class="form-group" ng-show="step==2">
 					<label class="control-label" for="content">Content</label>
 					<div class="controls">
 						<textarea name="content" data-ng-model="content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" ng-show="step==2">
 					<input type="submit" class="btn btn-default">
+					<span ng-click="goTo(1)">previous step</span>
 				</div>
 				<div data-ng-show="error" class="text-danger">
 					<strong data-ng-bind="error"></strong>

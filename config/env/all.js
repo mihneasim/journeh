@@ -25,7 +25,9 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 
-				'public/lib/angular-paginate-anything/src/paginate-anything.js'
+				'public/lib/angular-paginate-anything/src/paginate-anything.js',
+				'public/lib/underscore/underscore.js',
+				'public/lib/angular-underscore/angular-underscore.js'
 			]
 		},
 		css: [

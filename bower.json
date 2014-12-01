@@ -13,6 +13,8 @@
 		"angular-ui-utils": "~0.1.1",
 		"angular-ui-router": "~0.2.10",
 
-		"angular-paginate-anything": "~3.1.0"
+		"angular-paginate-anything": "~3.1.0",
+		"underscore": "~1.7.0",
+		"angular-underscore": "~0.5.0"
 	}
 }

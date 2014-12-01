@@ -7,6 +7,7 @@ var ApplicationConfiguration = (function() {
 	var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate',  'ngSanitize',  'ui.router', 'ui.bootstrap', 'ui.utils'];
 
 	applicationModuleVendorDependencies.push('bgf.paginateAnything');
+	applicationModuleVendorDependencies.push('angular-underscore/utils');
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {

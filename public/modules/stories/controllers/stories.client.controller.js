@@ -13,7 +13,7 @@ angular.module('stories').controller('StoriesController', ['$scope', '$statePara
 
 		$scope.goTo = function(step) {
 			$scope.step = step;
-		}
+		};
 
 		$scope.toggleGram = function(gram) {
 			var pos = $scope.selectedGrams.indexOf(gram);
@@ -31,7 +31,7 @@ angular.module('stories').controller('StoriesController', ['$scope', '$statePara
 				actual = $scope.selectedGrams.splice(pos, 1);
 				$scope.selectedGrams.splice(pos + 1, 0, actual[0]);
 			}
-		}
+		};
 
 		$scope.moveUp = function(gram) {
 			var pos = $scope.selectedGrams.indexOf(gram),
@@ -40,7 +40,7 @@ angular.module('stories').controller('StoriesController', ['$scope', '$statePara
 				actual = $scope.selectedGrams.splice(pos, 1);
 				$scope.selectedGrams.splice(pos - 1, 0, actual[0]);
 			}
-		}
+		};
 
 		$scope.compileBody = function() {
 			$scope.body = '';
@@ -48,7 +48,7 @@ angular.module('stories').controller('StoriesController', ['$scope', '$statePara
 				$scope.body += item.caption + "\n";
 			});
 
-		}
+		};
 
 		$scope.create = function() {
 			var story = new Stories({

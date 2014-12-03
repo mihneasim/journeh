@@ -42,10 +42,10 @@ angular.module('stories').controller('StoriesController', ['$scope', '$statePara
 			}
 		};
 
-		$scope.compileBody = function() {
-			$scope.body = '';
+		$scope.compileContent = function() {
+			$scope.content = '';
 			_.each($scope.selectedGrams, function(item) {
-				$scope.body += item.caption + "\n";
+				$scope.content += item.caption + "\n";
 			});
 
 		};

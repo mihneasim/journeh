@@ -15,6 +15,7 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'public/lib/angular-meditor/dist/meditor.css',
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -27,7 +28,8 @@ module.exports = {
 
 				'public/lib/angular-paginate-anything/src/paginate-anything.js',
 				'public/lib/underscore/underscore.js',
-				'public/lib/angular-underscore/angular-underscore.js'
+				'public/lib/angular-underscore/angular-underscore.js',
+				'public/lib/angular-meditor/dist/meditor.js',
 			]
 		},
 		css: [

@@ -24,8 +24,8 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 
 				'public/lib/angular-paginate-anything/src/paginate-anything.min.js',
-				'public/lib/underscore/underscore-min.js',
-				'public/lib/angular-underscore/angular-underscore.min.js'
+				'public/lib/lodash/dist/lodash.min.js',
+				'public/lib/angular-lodash/angular-lodash.js'
 			]
 		},
 		css: 'public/dist/application.min.css',

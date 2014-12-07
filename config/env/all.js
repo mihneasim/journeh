@@ -27,9 +27,9 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 
 				'public/lib/angular-paginate-anything/src/paginate-anything.js',
-				'public/lib/underscore/underscore.js',
-				'public/lib/angular-underscore/angular-underscore.js',
-				'public/lib/angular-meditor/dist/meditor.js',
+				'public/lib/lodash/dist/lodash.js',
+				'public/lib/angular-lodash/angular-lodash.js',
+				'public/lib/angular-meditor/dist/meditor.js'
 			]
 		},
 		css: [

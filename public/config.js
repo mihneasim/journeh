@@ -7,7 +7,7 @@ var ApplicationConfiguration = (function() {
 	var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate',  'ngSanitize',  'ui.router', 'ui.bootstrap', 'ui.utils'];
 
 	applicationModuleVendorDependencies.push('bgf.paginateAnything');
-	applicationModuleVendorDependencies.push('angular-underscore/utils');
+	applicationModuleVendorDependencies.push('angular-lodash');
 	applicationModuleVendorDependencies.push('angular-meditor');
 
 	// Add a new vertical module

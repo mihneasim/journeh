@@ -45,7 +45,7 @@ angular.module('stories').controller('StoriesController', ['$scope', '$statePara
 		$scope.compileContent = function() {
 			$scope.content = '';
 			_.each($scope.selectedGrams, function(item) {
-				$scope.content += item.caption + "\n";
+				$scope.content += item.caption + '\n';
 			});
 
 		};

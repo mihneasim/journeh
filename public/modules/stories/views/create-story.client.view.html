@@ -18,7 +18,9 @@
 						template-url="/modules/core/views/parts/paginate-anything.html"
 						url="'http://localhost:3000/grams'">
 					</bgf-pagination>
-					<div style="padding: 10px; float: left;" ng-repeat="gram in grams track by gram._id"><img ng-click="toggleGram(gram)" ng-src="{{gram.images.thumbnail.url}}" /></div>
+					<div style="padding: 10px; float: left;" ng-repeat="gram in grams track by gram._id">
+						<pickable-gram gram="gram" clickhandler="toggleGram"></pickable-gram>
+					</div>
 				</div>
 				<div class="form-group" ng-show="step==1">
 					<label class="control-label">Selected</label>
@@ -36,7 +38,7 @@
 				<div class="form-group" ng-show="step==2">
 					<label class="control-label" for="content">Content</label>
 					<div class="controls">
-						<textarea name="content" data-ng-model="content" meditor id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
+						<textarea name="content" data-ng-model="content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
 					</div>
 				</div>
 				<div class="form-group" ng-show="step==2">

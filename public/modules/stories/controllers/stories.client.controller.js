@@ -47,7 +47,7 @@ angular.module('stories').controller('StoriesController',
 		$scope.compileContent = function() {
 			$scope.content = '';
 			window._.each($scope.selectedGrams, function(item) {
-				$scope.content += item.caption + '\n';
+				$scope.content += item.caption.replace(/\n/g, '<br/>') + '<br/>';
 			});
 
 		};

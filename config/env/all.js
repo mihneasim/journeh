@@ -15,7 +15,9 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-				'public/lib/angular-meditor/dist/meditor.css',
+
+				'public/lib/medium-editor/dist/css/medium-editor.css',
+				'public/lib/medium-editor/dist/css/themes/bootstrap.css'
 			],
 			js: [
 				'//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js',
@@ -30,7 +32,9 @@ module.exports = {
 
 				'public/lib/angular-paginate-anything/src/paginate-anything.js',
 				'public/lib/lodash/dist/lodash.js',
-				'public/lib/angular-lodash/angular-lodash.js'
+				'public/lib/angular-lodash/angular-lodash.js',
+				'public/lib/medium-editor/dist/js/medium-editor.js',
+				'public/lib/angular-medium-editor/dist/angular-medium-editor.js'
 			]
 		},
 		css: [

@@ -39,7 +39,6 @@ var handleMediaResponse = function(user, done) {
 					type: 'Point',
 					coordinates: [parseFloat(remote.location.longitude), parseFloat(remote.location.latitude)]
 				};
-			console.log(gram, user);
 			gram.save();
 		}
 		if (results.pagination.next_url) {

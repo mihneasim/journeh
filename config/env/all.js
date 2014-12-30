@@ -18,6 +18,8 @@ module.exports = {
 				'public/lib/angular-meditor/dist/meditor.css',
 			],
 			js: [
+				'//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js',
+
 				'public/lib/angular/angular.js',
 				'public/lib/angular-resource/angular-resource.js',
 				'public/lib/angular-animate/angular-animate.js',
@@ -28,8 +30,7 @@ module.exports = {
 
 				'public/lib/angular-paginate-anything/src/paginate-anything.js',
 				'public/lib/lodash/dist/lodash.js',
-				'public/lib/angular-lodash/angular-lodash.js',
-				'public/lib/angular-meditor/dist/meditor.js'
+				'public/lib/angular-lodash/angular-lodash.js'
 			]
 		},
 		css: [

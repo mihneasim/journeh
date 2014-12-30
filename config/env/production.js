@@ -15,6 +15,8 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
 			],
 			js: [
+				'//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js',
+
 				'public/lib/angular/angular.min.js',
 				'public/lib/angular-resource/angular-resource.js',
 				'public/lib/angular-animate/angular-animate.js',

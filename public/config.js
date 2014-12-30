@@ -8,7 +8,6 @@ var ApplicationConfiguration = (function() {
 
 	applicationModuleVendorDependencies.push('bgf.paginateAnything');
 	applicationModuleVendorDependencies.push('angular-lodash');
-	applicationModuleVendorDependencies.push('angular-meditor');
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {

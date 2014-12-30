@@ -19,12 +19,26 @@ module.exports = function() {
 		},
 		function(req, accessToken, refreshToken, profile, done) {
 			// Set the provider data and include tokens
-			var providerData = profile._json;
+			var afterAuth = function afterAuth (done) {
+				return function (err, user) {
+					if (user !== undefined) {
+						// schedule feed update
+						req.app.mqueue.publish(config.queue.jobTypes.instagramFeed,
+						   {userId: user.id},
+						   {type: 'pullFeed', deliveryMode: 2});
+						console.log('Pushed %s on queue %s', user.id, config.queue.jobTypes.instagramFeed);
+					}
+					return done(err, user);
+				};
+			},
+			providerUserProfile,
+			providerData = profile._json;
+
 			providerData.accessToken = accessToken;
 			providerData.refreshToken = refreshToken;
 
 			// Create the user OAuth profile
-			var providerUserProfile = {
+			providerUserProfile = {
 				firstName: profile.name.givenName,
 				lastName: profile.name.familyName,
 				displayName: profile.displayName,
@@ -37,7 +51,7 @@ module.exports = function() {
 			};
 
 			// Save the user OAuth profile
-			users.saveOAuthUserProfile(req, providerUserProfile, done);
+			users.saveOAuthUserProfile(req, providerUserProfile, afterAuth(done));
 		}
 	));
 };

@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('stories').controller('StoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Stories', 'Grams',
+angular.module('stories').controller('StoriesController',
+	['$scope', '$stateParams', '$location', 'Authentication',
+	'Stories', 'Grams',
 	function($scope, $stateParams, $location, Authentication, Stories, Grams) {
 		$scope.authentication = Authentication;
 
@@ -44,7 +46,7 @@ angular.module('stories').controller('StoriesController', ['$scope', '$statePara
 
 		$scope.compileContent = function() {
 			$scope.content = '';
-			_.each($scope.selectedGrams, function(item) {
+			window._.each($scope.selectedGrams, function(item) {
 				$scope.content += item.caption + '\n';
 			});
 

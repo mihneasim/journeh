@@ -10,8 +10,8 @@ var mongoose = require('mongoose'),
 	paginate = require('node-paginate-anything'),
 	Gram = mongoose.model('Gram'),
 	User = mongoose.model('User'),
-	_ = require('lodash'),
-	config = require('../../config/config');
+	_ = require('lodash');
+	//config = require('../../config/config'); # TODO: sync feed view
 
 var handleMediaResponse = function(user, done) {
 	return function (err, response, results) {
@@ -62,11 +62,6 @@ exports.read = function(req, res) {
  * List of Grams
  */
 exports.list = function(req, res) {
-	//req.app.mqueue.publish(config.queue.jobTypes.instagramFeed,
-						   //{userId: req.user.id},
-						   //{type: 'pullFeed', deliveryMode: 2});
-
-	//console.log('pushed', config.queue.jobTypes.instagramFeed);
 	Gram.count({user: req.user}, function (err, totalItems) {
 		var queryParameters = paginate(req, res, totalItems, 20);
 		if (!totalItems) {
@@ -95,7 +90,7 @@ exports.pullFeed = function(userId, done) {
 				done({error: err});
 		} else {
 			url = ('https://api.instagram.com/v1/users/' +
-				   user.providerData.data.id + '/media/recent/?'),
+				   user.providerData.data.id + '/media/recent/?');
 			params = {access_token: user.providerData.accessToken};
 			Gram.find({user: user}).sort('-instagramId').limit(1).select('instagramId').exec(function (errGram, results) {
 				if (errGram === null && results.length) {

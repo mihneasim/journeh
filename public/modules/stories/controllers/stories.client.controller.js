@@ -1,9 +1,15 @@
 'use strict';
 
 angular.module('stories').controller('StoriesController',
-	['$scope', '$stateParams', '$location', 'Authentication',
-	'Stories', 'Grams',
-	function($scope, $stateParams, $location, Authentication, Stories, Grams) {
+	['$scope', '$stateParams', '$location', '$interpolate', '$http', '$q',
+	'Authentication', 'Stories', 'Grams',
+	function($scope, $stateParams, $location, $interpolate, $http, $q,
+			 Authentication, Stories, Grams) {
+
+		var editableGramTpl,
+			editableGramTplQ = $http.get('/modules/grams/views/draftGramInStory.html')
+									.success(function (data) { editableGramTpl = $interpolate(data); } );
+
 		$scope.authentication = Authentication;
 
 		// CREATE
@@ -45,9 +51,21 @@ angular.module('stories').controller('StoriesController',
 		};
 
 		$scope.compileContent = function() {
+			var compileGramQs = [],
+				htmlize = function htmlize (gram) {
+				return editableGramTpl({gram: gram});
+			};
+
 			$scope.content = '';
+
 			window._.each($scope.selectedGrams, function(item) {
-				$scope.content += item.caption.replace(/\n/g, '<br/>') + '<br/>';
+				compileGramQs.push(
+					editableGramTplQ.then(function() { return htmlize(item); })
+				);
+				//$scope.content += item.caption.replace(/\n/g, '<br/>') + '<br/>';
+			});
+			$q.all(compileGramQs).then(function (results) {
+				$scope.content = results.join('\n');
 			});
 
 		};

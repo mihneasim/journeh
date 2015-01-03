@@ -1,0 +1,7 @@
+    <div style="padding: 10px; width: 600px; height: 180px;">
+            <img ng-src="{{gram.images.thumbnail.url}}" style="padding: 10px; float: left;" />
+            <textarea style="clear: both; width: 400px; height:120px; font-size: 13px; font-family: verdana" data-ng-model="gram.caption"></textarea>
+            <span ng-click="moveUp(gram)">&#x25B2;</span>
+            <span ng-click="moveDown(gram)">&#x25BC;</span>
+            <span ng-click="remove(gram)">X</span>
+    </div>

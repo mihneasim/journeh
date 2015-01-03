@@ -32,28 +32,12 @@ angular.module('stories').controller('StoriesController',
 			}
 		};
 
-		$scope.moveDown = function(gram) {
-			var pos = $scope.selectedGrams.indexOf(gram),
-				actual;
-			if (pos < $scope.selectedGrams.length - 1) {
-				actual = $scope.selectedGrams.splice(pos, 1);
-				$scope.selectedGrams.splice(pos + 1, 0, actual[0]);
-			}
-		};
-
-		$scope.moveUp = function(gram) {
-			var pos = $scope.selectedGrams.indexOf(gram),
-				actual;
-			if (pos > 0) {
-				actual = $scope.selectedGrams.splice(pos, 1);
-				$scope.selectedGrams.splice(pos - 1, 0, actual[0]);
-			}
-		};
-
 		$scope.compileContent = function() {
 			var compileGramQs = [],
 				htmlize = function htmlize (gram) {
-				return editableGramTpl({gram: gram});
+					var altered = angular.copy(gram);
+					altered.caption = altered.caption.replace(/\n/g, '<br/>');
+					return editableGramTpl({gram: altered});
 			};
 
 			$scope.content = '';
@@ -62,8 +46,8 @@ angular.module('stories').controller('StoriesController',
 				compileGramQs.push(
 					editableGramTplQ.then(function() { return htmlize(item); })
 				);
-				//$scope.content += item.caption.replace(/\n/g, '<br/>') + '<br/>';
 			});
+
 			$q.all(compileGramQs).then(function (results) {
 				$scope.content = results.join('\n');
 			});

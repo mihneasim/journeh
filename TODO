@@ -1,5 +1,3 @@
-* rabbitmq reqs and configs
-* worker.js
-
+* wire schedulePullFeedView in urls
 
 app.set('trust proxy')

@@ -91,6 +91,13 @@ var UserSchema = new Schema({
 	},
   	resetPasswordExpires: {
   		type: Date
+  	},
+	/* for feed pulling */
+	pullFeedScheduled: {
+		type: Date
+	},
+  	pullFeedCompleted: {
+  		type: Date
   	}
 });
 

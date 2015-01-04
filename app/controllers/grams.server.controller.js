@@ -6,12 +6,12 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
 	qs = require('querystring'),
+	Q = require('q'),
 	request = require('request'),
 	paginate = require('node-paginate-anything'),
 	Gram = mongoose.model('Gram'),
 	User = mongoose.model('User'),
-	_ = require('lodash');
-	//config = require('../../config/config'); # TODO: sync feed view
+	config = require('../../config/config');
 
 var handleMediaResponse = function(user, done) {
 	return function (err, response, results) {
@@ -79,10 +79,20 @@ exports.list = function(req, res) {
 	});
 };
 
-exports.pullFeed = function(userId, done) {
+exports.pullFeed = function(userId, callback_done) {
+	// Called by worker; perform actual feed sync from instragram
 
 	User.findOne({_id: userId}, 'providerData', function (err, user) {
-		var url, params, results;
+		var url, params, results,
+			done = function (data) {
+				user.pullFeedCompleted = Date.now();
+				user.save(function() {
+					if (callback_done) {
+						callback_done(data);
+					}
+				});
+			};
+
 		if (err) {
 			console.log(err);
 			if (done)
@@ -102,6 +112,62 @@ exports.pullFeed = function(userId, done) {
 			});
 		}
 	});
+};
+
+var schedulePull = function schedulePull (queue, user) {
+	// Schedule instragram feed sync on queue for user
+	// Return promise
+
+	var qDef = Q.defer(),
+		publishCallback = function (err) {
+			if (!err) {
+				console.log('Pushed %s on queue %s',
+							user.id, config.queue.jobTypes.instagramFeed);
+				user.pullFeedScheduled = Date.now();
+				Q.ninvoke(user, 'save').then(
+					function (data) { qDef.resolve(data); },
+					function (reason) { qDef.reject(reason); }
+				);
+			} else {
+				console.log('Can not schedule');
+				qDef.reject(new Error('Can\'t schedule feed sync'));
+			}
+		};
+
+	if (user.pullFeedScheduled &&
+			((Date.now() - user.pullFeedScheduled) / 60000 < 3)) {
+
+		qDef.reject(new Error('Can\'t re-sync this soon'));
+
+	} else {
+
+		queue.publish(config.queue.jobTypes.instagramFeed,
+			{userId: user.id},
+			{type: 'pullFeed', deliveryMode: 2},
+			publishCallback);
+		// defaultExchange is in confirm=False mode, so we do this -
+		publishCallback(false);
+
+	}
+
+	return qDef.promise;
+};
+exports.schedulePull = schedulePull;
+
+exports.schedulePullFeedView = function (req, res) {
+	// View to schedule sync on frontend request
+
+	var user = req.user;
+
+	if (user === undefined) {
+		res.jsonp({error: 'User not logged in'});
+	} else {
+		schedulePull(req.app.mqueue, user).then(
+			function () { res.jsonp({error: null}); },
+			function (reason) { res.jsonp({error: reason}); }
+		);
+	}
+
 };
 
 

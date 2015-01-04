@@ -38,6 +38,7 @@
 		"async": "~0.9.0",
 		"nodemailer": "~1.1.1",
 		"amqp": "~0.2.0",
+		"q": "~1.1.2",
 		"mongoose-url-slugs": "~0.0.10",
 		"node-paginate-anything": "~0.0.5"
 	},

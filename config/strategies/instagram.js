@@ -7,7 +7,8 @@ var passport = require('passport'),
 	url = require('url'),
 	InstagramStrategy = require('passport-instagram').Strategy,
 	config = require('../config'),
-	users = require('../../app/controllers/users');
+	users = require('../../app/controllers/users'),
+	grams = require('../../app/controllers/grams');
 
 module.exports = function() {
 	// Use instagram strategy
@@ -23,11 +24,12 @@ module.exports = function() {
 				return function (err, user) {
 					if (user !== undefined) {
 						// schedule feed update
-						req.app.mqueue.publish(config.queue.jobTypes.instagramFeed,
-						   {userId: user.id},
-						   {type: 'pullFeed', deliveryMode: 2});
-						console.log('Pushed %s on queue %s', user.id, config.queue.jobTypes.instagramFeed);
+						grams.schedulePull(req.app.mqueue, user).then(
+							function () { }, function (reason) {
+								console.log('Trouble finishing up feed scheduling ', reason);
+							});
 					}
+					// don't wait, just complete auth
 					return done(err, user);
 				};
 			},

@@ -11,16 +11,13 @@ angular.module('stories').controller('StoriesController',
 									.success(function (data) { editableGramTpl = $interpolate(data); } );
 
 		$scope.authentication = Authentication;
+		this.step = 1;
 
 		// CREATE
 		$scope.initCreate = function() {
-			$scope.step = 1;
 			$scope.grams = Grams.query();
 			$scope.selectedGrams = [];
-		};
-
-		$scope.goTo = function(step) {
-			$scope.step = step;
+			this.step = 1;
 		};
 
 		$scope.toggleGram = function(gram) {
@@ -64,6 +61,7 @@ angular.module('stories').controller('StoriesController',
 
 				$scope.title = '';
 				$scope.content = '';
+				this.step = 1;
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

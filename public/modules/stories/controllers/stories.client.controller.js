@@ -6,7 +6,26 @@ angular.module('stories').controller('StoriesController',
 	function($scope, $stateParams, $location, $interpolate, $http, $q,
 			 Authentication, Stories, Grams) {
 
-		var editableGramTpl,
+		var pollNew = function pollNew() {
+			var qDef = $q.defer(),
+				delayed = function() {
+					$http.get('/users/me').then(
+						function success(data) {
+							if (data.data.pullFeedScheduled < data.data.pullFeedCompleted) {
+								qDef.resolve(data);
+							} else {
+								return pollNew();
+							}
+						},
+						function error(err) {
+							qDef.reject(err);
+						});
+				};
+				window.setTimeout(delayed, 1000);
+				return qDef.promise;
+			},
+
+			editableGramTpl,
 			editableGramTplQ = $http.get('/modules/grams/views/draftGramInStory.html')
 									.success(function (data) { editableGramTpl = $interpolate(data); } );
 
@@ -18,6 +37,12 @@ angular.module('stories').controller('StoriesController',
 			$scope.grams = Grams.query();
 			$scope.selectedGrams = [];
 			this.step = 1;
+
+			$http.get('/grams/sync').success(function () {
+				var syncReady = pollNew();
+				syncReady.then( function () { $scope.grams = Grams.query(); },
+						    function () { console.log('some errr :(') });
+			});
 		};
 
 		$scope.toggleGram = function(gram) {

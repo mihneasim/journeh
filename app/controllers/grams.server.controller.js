@@ -32,12 +32,17 @@ var handleMediaResponse = function(user, done) {
 			});
 			if (remote.caption && remote.caption.text)
 				gram.caption = remote.caption.text;
-			if (remote.location && remote.location.name)
-				gram.locationName = remote.location.name;
-			if (remote.location && remote.location.longitude)
+			if (remote.location && remote.location.name &&
+				remote.location && remote.location.longitude)
 				gram.location = {
-					type: 'Point',
-					coordinates: [parseFloat(remote.location.longitude), parseFloat(remote.location.latitude)]
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [parseFloat(remote.location.longitude), parseFloat(remote.location.latitude)]
+					},
+					properties: {
+						name: remote.location.name
+					}
 				};
 			gram.save();
 		}

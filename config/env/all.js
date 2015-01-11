@@ -17,7 +17,9 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 
 				'public/lib/medium-editor/dist/css/medium-editor.css',
-				'public/lib/medium-editor/dist/css/themes/bootstrap.css'
+				'public/lib/medium-editor/dist/css/themes/bootstrap.css',
+
+				'public/lib/leaflet/dist/leaflet.css'
 			],
 			js: [
 				'//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js',
@@ -34,7 +36,10 @@ module.exports = {
 				'public/lib/lodash/dist/lodash.js',
 				'public/lib/angular-lodash/angular-lodash.js',
 				'public/lib/medium-editor/dist/js/medium-editor.js',
-				'public/lib/angular-medium-editor/dist/angular-medium-editor.js'
+				'public/lib/angular-medium-editor/dist/angular-medium-editor.js',
+
+				'public/lib/leaflet/dist/leaflet-src.js',
+				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.js'
 			]
 		},
 		css: [

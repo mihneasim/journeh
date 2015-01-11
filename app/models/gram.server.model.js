@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+	Schema = mongoose.Schema,
+	GeoJSON = require('mongoose-geojson-schema');
 
 /**
  * Gram Schema
@@ -52,13 +53,7 @@ var GramSchema = new Schema({
 		low_resolution: { url: String, width: Number, height: Number },
 		standard_resolution: { url: String, width: Number, height: Number }
 	},
-	locationName: {
-		type: String
-	},
-	location: {
-		type: {type: String},
-		coordinates: [],
-	}
+	location: GeoJSON.Feature
 });
 
 GramSchema.index({ user: 1, instagramId: -1 }, {unique: true});

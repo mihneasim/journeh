@@ -2,9 +2,9 @@
 
 angular.module('stories').controller('StoriesController',
 	['$scope', '$stateParams', '$location', '$interpolate', '$http', '$q',
-	'Authentication', 'Stories', 'Grams',
+	'Stories', 'Grams',
 	function($scope, $stateParams, $location, $interpolate, $http, $q,
-			 Authentication, Stories, Grams) {
+			 Stories, Grams) {
 
 		var pollNew = function pollNew() {
 			var qDef = $q.defer(),
@@ -29,19 +29,24 @@ angular.module('stories').controller('StoriesController',
 			editableGramTplQ = $http.get('/modules/grams/views/draftGramInStory.html')
 									.success(function (data) { editableGramTpl = $interpolate(data); } );
 
-		$scope.authentication = Authentication;
 		this.step = 1;
 
 		// CREATE
 		$scope.initCreate = function() {
 			$scope.grams = Grams.query();
 			$scope.selectedGrams = [];
+			$scope.romania = {lat: 46, lng: 25, zoom: 4};
+			$scope.locations = {
+				type: 'FeatureCollection',
+				features: []
+			};
+			$scope.markers = [];
 			this.step = 1;
 
 			$http.get('/grams/sync').success(function () {
 				var syncReady = pollNew();
 				syncReady.then( function () { $scope.grams = Grams.query(); },
-						    function () { console.log('some errr :(') });
+						    function () { });
 			});
 		};
 
@@ -68,24 +73,37 @@ angular.module('stories').controller('StoriesController',
 				compileGramQs.push(
 					editableGramTplQ.then(function() { return htmlize(item); })
 				);
+				// locations
+				if (item.location && item.location.geometry.coordinates.length) {
+					$scope.locations.features.push(item.location);
+					$scope.markers.push({
+						'lng': item.location.geometry.coordinates[0],
+						'lat': item.location.geometry.coordinates[1],
+						'message': item.location.properties.name,
+						'draggable': false
+					});
+				}
 			});
 
 			$q.all(compileGramQs).then(function (results) {
 				$scope.content = results.join('\n');
 			});
 
+
 		};
 
 		$scope.create = function() {
 			var story = new Stories({
 				title: this.title,
-				content: this.content
+				content: this.content,
+				locations: this.locations
 			});
 			story.$save(function(response) {
 				$location.path('stories/' + response._id);
 
 				$scope.title = '';
 				$scope.content = '';
+				$scope.locations.features = [];
 				this.step = 1;
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;

@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
+	GeoJSON = require('mongoose-geojson-schema'),
 	URLSlugs = require('mongoose-url-slugs');
 
 /**
@@ -36,11 +37,13 @@ var StorySchema = new Schema({
 			ref: 'Gram'
 	}
 	],
-	tags: [ String ]
+	tags: [ String ],
+	locations: GeoJSON.FeatureCollection
 });
 
 StorySchema.index({ user: 1 });
 StorySchema.index({ tags: 1 });
+StorySchema.index({ locations: 1 }, {type: '2dsphere'});
 
 StorySchema.plugin(URLSlugs('title'));
 

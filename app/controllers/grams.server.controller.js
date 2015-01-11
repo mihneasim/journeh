@@ -156,7 +156,6 @@ exports.schedulePull = schedulePull;
 
 exports.schedulePullFeedView = function (req, res) {
 	// View to schedule sync on frontend request
-
 	var user = req.user;
 
 	if (user === undefined) {
@@ -164,7 +163,7 @@ exports.schedulePullFeedView = function (req, res) {
 	} else {
 		schedulePull(req.app.mqueue, user).then(
 			function () { res.jsonp({error: null}); },
-			function (reason) { res.jsonp({error: reason}); }
+			function (reason) { res.status(503).jsonp({error: reason.message}); }
 		);
 	}
 

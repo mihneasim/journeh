@@ -11,6 +11,9 @@ module.exports = function(app) {
 	app.route('/grams')
 		.get(grams.list);
 
+	app.route('/grams/sync')
+		.get(grams.schedulePullFeedView);
+
 	app.route('/grams/:gramId')
 		.get(grams.read);
 

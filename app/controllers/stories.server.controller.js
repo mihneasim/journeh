@@ -75,7 +75,7 @@ exports.delete = function(req, res) {
 exports.list = function(req, res) {
 	var page = +req.query.page || 1,
 		limit = +req.query.limit || 20;
-	Story.find().sort('-created').populate('user', 'displayName').limit(limit).skip((page - 1) * limit).exec(function(err, stories) {
+	Story.find().sort('-created').populate('user', 'displayName username').limit(limit).skip((page - 1) * limit).exec(function(err, stories) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -90,7 +90,7 @@ exports.list = function(req, res) {
  * Story middleware
  */
 exports.storyByID = function(req, res, next, id) {
-	Story.findById(id).populate('user', 'displayName').exec(function(err, story) {
+	Story.findById(id).populate('user', 'displayName username').exec(function(err, story) {
 		if (err) return next(err);
 		if (!story) return next(new Error('Failed to load story ' + id));
 		req.story = story;
@@ -99,7 +99,7 @@ exports.storyByID = function(req, res, next, id) {
 };
 
 exports.storyBySlug = function(req, res, next, slug) {
-	Story.findOne({ slug: slug }).populate('user', 'displayName').exec(function(err, story) {
+	Story.findOne({ slug: slug }).populate('user', 'displayName username').exec(function(err, story) {
 		if (err) return next(err);
 		if (!story) return next(new Error('Failed to load story ' + slug));
 		req.story = story;

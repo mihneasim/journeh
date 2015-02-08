@@ -2,9 +2,11 @@
 
 angular.module('stories').controller('StoriesController',
 	['$scope', '$stateParams', '$location', '$interpolate', '$http', '$q',
-	'Stories', 'Grams',
+	'GeoUtils', 'Stories', 'Grams',
 	function($scope, $stateParams, $location, $interpolate, $http, $q,
-			 Stories, Grams) {
+			 GeoUtils, Stories, Grams) {
+
+		var vm = this;
 
 		var pollNew = function pollNew() {
 			var qDef = $q.defer(),
@@ -29,19 +31,17 @@ angular.module('stories').controller('StoriesController',
 			editableGramTplQ = $http.get('/modules/grams/views/draftGramInStory.html')
 									.success(function (data) { editableGramTpl = $interpolate(data); } );
 
-		this.step = 1;
+		vm.step = 1;
 
 		// CREATE
 		$scope.initCreate = function() {
 			$scope.grams = Grams.query();
 			$scope.selectedGrams = [];
-			$scope.romania = {lat: 46, lng: 25, zoom: 4};
 			$scope.locations = {
 				type: 'FeatureCollection',
 				features: []
 			};
-			$scope.markers = [];
-			this.step = 1;
+			vm.step = 1;
 
 			$http.get('/grams/sync').success(function () {
 				var syncReady = pollNew();
@@ -76,12 +76,6 @@ angular.module('stories').controller('StoriesController',
 				// locations
 				if (item.location && item.location.geometry.coordinates.length) {
 					$scope.locations.features.push(item.location);
-					$scope.markers.push({
-						'lng': item.location.geometry.coordinates[0],
-						'lat': item.location.geometry.coordinates[1],
-						'message': item.location.properties.name,
-						'draggable': false
-					});
 				}
 			});
 
@@ -104,7 +98,6 @@ angular.module('stories').controller('StoriesController',
 				$scope.title = '';
 				$scope.content = '';
 				$scope.locations.features = [];
-				this.step = 1;
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -140,10 +133,17 @@ angular.module('stories').controller('StoriesController',
 			$scope.stories = Stories.query();
 		};
 
-		$scope.findOne = function() {
-			$scope.story = Stories.get({
-				storyId: $stateParams.storyId
-			});
+		vm.initViewStory = function() {
+			vm.center = {};
+
+			vm.story = Stories.get({storyId: $stateParams.storyId},
+				function () {
+					vm.geojson = { data: vm.story.locations };
+					if (vm.geojson.data.features !== undefined) {
+						vm.bounds = GeoUtils.getBoundsFromGeoJson(vm.geojson.data);
+					}
+				}
+			);
 		};
 	}
 ]);

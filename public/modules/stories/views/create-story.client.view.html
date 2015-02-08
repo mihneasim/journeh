@@ -1,4 +1,4 @@
-<section data-ng-controller="StoriesController as storiesCtrl" data-ng-init="initCreate()">
+<section data-ng-controller="StoriesController as vm" data-ng-init="initCreate()">
 	<div class="page-header">
 		<h1>New Story</h1>
 	</div>
@@ -11,7 +11,7 @@
 						<input name="title" type="text" data-ng-model="title" id="title" class="form-control" placeholder="Title" required>
 					</div>
 				</div>
-				<div class="form-group" ng-show="storiesCtrl.step==1">
+				<div class="form-group" ng-show="vm.step==1">
 					<label class="control-label">Pick the pieces</label>
 					<bgf-pagination
 						collection="grams"
@@ -22,16 +22,16 @@
 						<pickable-gram gram="gram" clickhandler="toggleGram"></pickable-gram>
 					</div>
 				</div>
-				<div class="form-group" ng-show="storiesCtrl.step==1">
+				<div class="form-group" ng-show="vm.step==1">
 					<label class="control-label">Selected</label>
 					<div ng-repeat="gram in selectedGrams track by gram._id">
 						<editable-gram gram="gram" full-collection="selectedGrams"></editable-gram>
 					</div>
 				</div>
-				<div class="form-group" ng-show="storiesCtrl.step==1">
-					<span ng-click="compileContent(); storiesCtrl.step = 2">final step</span>
+				<div class="form-group" ng-show="vm.step==1">
+					<span ng-click="compileContent(); vm.step = 2">final step</span>
 				</div>
-				<div class="form-group" ng-show="storiesCtrl.step==2">
+				<div class="form-group" ng-show="vm.step==2">
 					<label class="control-label" for="content">Content</label>
 					<div class="controls">
 						<p name="content" data-medium-editor data-ng-model="content"
@@ -40,15 +40,14 @@
 										   id="content"></p>
 					</div>
 				</div>
-				<div class="form-group" ng-show="storiesCtrl.step==2">
+				<div class="form-group" ng-show="vm.step==2">
 					<input type="submit" class="btn btn-default">
-					<span ng-click="storiesCtrl.step = 1">previous step</span>
+					<span ng-click="vm.step = 1">previous step</span>
 				</div>
 				<div data-ng-show="error" class="text-danger">
 					<strong data-ng-bind="error"></strong>
 				</div>
 			</fieldset>
-			<div><leaflet markers="markers" width="600px" height="400px"></leaflet></div>
 		</form>
 	</div>
 </section>

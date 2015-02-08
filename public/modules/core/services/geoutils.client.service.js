@@ -27,12 +27,8 @@ angular.module('core').service('GeoUtils', [
 
             this.getBoundsFromGeoJson = function getBoundsFromGeoJson (geodata) {
 
-                return [];
+                return leafletBoundsHelpers.createBoundsFromArray(this.getSWNE(geodata));
             };
 
-                //bounds = window._.filter(bounds, function (x) { return x; });
-                //debugger
-                //vm.bounds = leafletBoundsHelpers.createBoundsFromArray([
-                //]);
         }
 ]);

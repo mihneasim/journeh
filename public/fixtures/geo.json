@@ -1,0 +1,45 @@
+{
+    "features" : [
+        {
+            "properties" : {
+                "name" : "Tanah Lot"
+            },
+            "geometry" : {
+                "type" : "Point",
+                "coordinates" : [
+                    115.088736709,
+                    -8.61726289
+                ]
+            },
+            "type" : "Feature"
+        },
+        {
+            "properties" : {
+                "name" : "Uluwatu Temple (Water Temple) Bali, Indonesia"
+            },
+            "geometry" : {
+                "type" : "Point",
+                "coordinates" : [
+                    115.086536676,
+                    -8.828696775
+                ]
+            },
+            "type" : "Feature"
+        },
+        {
+            "properties" : {
+                "name" : "D'Wina Villa Kuta"
+            },
+            "geometry" : {
+                "type" : "Point",
+                "coordinates" : [
+                    115.178692066,
+                    -8.70625312
+                ]
+            },
+            "type" : "Feature"
+        }
+    ],
+    "type" : "FeatureCollection"
+}
+

@@ -13,6 +13,10 @@ module.exports = function(config) {
 
 		// List of files / patterns to load in the browser
 		files: applicationConfiguration.assets.lib.js.concat(applicationConfiguration.assets.js, applicationConfiguration.assets.tests),
+		preprocessors: applicationConfiguration.karmaPreprocessors,
+		jsonFixturesPreprocessor: {
+			stripPrefix: 'public/fixtures/'
+		},
 
 		// Test results reporter to use
 		// Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'

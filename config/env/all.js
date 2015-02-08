@@ -53,7 +53,11 @@ module.exports = {
 		],
 		tests: [
 			'public/lib/angular-mocks/angular-mocks.js',
-			'public/modules/*/tests/*.js'
+			'public/modules/*/tests/*.js',
+			'public/fixtures/*.json'
 		]
+	},
+	karmaPreprocessors: {
+		'public/fixtures/*.json': ['json_fixtures']
 	}
 };

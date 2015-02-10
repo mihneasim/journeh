@@ -8,13 +8,13 @@ var users = require('../../app/controllers/users'),
 
 module.exports = function(app) {
 	// gram Routes
-	app.route('/grams')
+	app.route('/api/grams')
 		.get(grams.list);
 
-	app.route('/grams/sync')
+	app.route('/api/grams/sync')
 		.get(grams.schedulePullFeedView);
 
-	app.route('/grams/:gramId')
+	app.route('/api/grams/:gramId')
 		.get(grams.read);
 
 	// Finish by binding the gram middleware

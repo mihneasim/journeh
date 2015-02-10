@@ -11,7 +11,7 @@ angular.module('stories').controller('StoriesController',
 		var pollNew = function pollNew() {
 			var qDef = $q.defer(),
 				delayed = function() {
-					$http.get('/users/me').then(
+					$http.get('/api/users/me').then(
 						function success(data) {
 							if (data.data.pullFeedScheduled < data.data.pullFeedCompleted) {
 								qDef.resolve(data);
@@ -43,7 +43,7 @@ angular.module('stories').controller('StoriesController',
 			};
 			vm.step = 1;
 
-			$http.get('/grams/sync').success(function () {
+			$http.get('/api/grams/sync').success(function () {
 				var syncReady = pollNew();
 				syncReady.then( function () { $scope.grams = Grams.query(); },
 						    function () { });

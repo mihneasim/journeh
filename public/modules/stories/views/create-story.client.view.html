@@ -16,7 +16,7 @@
 					<bgf-pagination
 						collection="grams"
 						template-url="/modules/core/views/parts/paginate-anything.html"
-						url="'/grams'">
+						url="'/api/grams'">
 					</bgf-pagination>
 					<div style="padding: 10px; float: left;" ng-repeat="gram in grams track by gram._id">
 						<pickable-gram gram="gram" clickhandler="toggleGram"></pickable-gram>

@@ -7,11 +7,11 @@ angular.module('stories').config(['$stateProvider', '$injector',
 		$stateProvider.
 		state('listStories', {
 			url: '/stories',
-			templateUrl: 'modules/stories/views/list-stories.client.view.html',
+			templateUrl: '/modules/stories/views/list-stories.client.view.html',
 		}).
 		state('createStory', {
 			url: '/stories/create',
-			templateUrl: 'modules/stories/views/create-story.client.view.html',
+			templateUrl: '/modules/stories/views/create-story.client.view.html',
 			resolve: {
 				'profile': function($q, $state,  Authentication) {
 					var defer = $q.defer();
@@ -26,11 +26,11 @@ angular.module('stories').config(['$stateProvider', '$injector',
 		}).
 		state('viewStory', {
 			url: '/stories/:storyId',
-			templateUrl: 'modules/stories/views/view-story.client.view.html',
+			templateUrl: '/modules/stories/views/view-story.client.view.html',
 		}).
 		state('editStory', {
 			url: '/stories/:storyId/edit',
-			templateUrl: 'modules/stories/views/edit-story.client.view.html',
+			templateUrl: '/modules/stories/views/edit-story.client.view.html',
 		});
 	}
 ]);

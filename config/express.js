@@ -135,12 +135,9 @@ module.exports = function(db, mqueue) {
 		});
 	});
 
-	// Assume 404 since no middleware responded
-	app.use(function(req, res) {
-		res.status(404).render('404', {
-			url: req.originalUrl,
-			error: 'Not Found'
-		});
+	// catch-all to angular
+	app.get('*', function(req, res) {
+		res.render('index', {user: req.user || null});
 	});
 
 	return app;

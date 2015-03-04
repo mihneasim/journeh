@@ -22,19 +22,30 @@ var StorySchema = new Schema({
 		trim: true,
 		required: 'Title cannot be blank'
 	},
-	content: {
-		type: String,
-		default: '',
-		trim: true
-	},
+	content: [
+		{
+			caption: {
+				type: String,
+				default: '',
+				trim: true
+			},
+			images: {
+				low_resolution: { url: String, width: Number, height: Number },
+				thumbnail: { url: String, width: Number, height: Number },
+				standard_resolution: { url: String, width: Number, height: Number }
+			},
+			videos: {
+				low_bandwith: { url: String, width: Number, height: Number },
+				low_resolution: { url: String, width: Number, height: Number },
+				standard_resolution: { url: String, width: Number, height: Number }
+			},
+			location: GeoJSON.Feature,
+			gram: { type: Schema.ObjectId, ref: 'Gram' }
+		}
+	],
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
-	},
-	grams: [
-			{
-			type: Schema.ObjectId,
-			ref: 'Gram'
 	}
 	],
 	tags: [ String ],

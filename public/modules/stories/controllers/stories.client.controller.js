@@ -2,13 +2,12 @@
 
 angular.module('stories').controller('StoriesController',
 	['$scope', '$stateParams', '$location', '$interpolate', '$http', '$q',
-	'GeoUtils', 'Stories', 'Grams',
+	'GeoUtils', 'Stories', 'Grams', 'Authentication',
 	function($scope, $stateParams, $location, $interpolate, $http, $q,
-			 GeoUtils, Stories, Grams) {
+			 GeoUtils, Stories, Grams, Authentication) {
 
-		var vm = this;
-
-		var pollNew = function pollNew() {
+		var vm = this,
+			pollNew = function pollNew() {
 			var qDef = $q.defer(),
 				delayed = function() {
 					$http.get('/api/users/me').then(
@@ -32,15 +31,21 @@ angular.module('stories').controller('StoriesController',
 									.success(function (data) { editableGramTpl = $interpolate(data); } );
 
 		vm.step = 1;
+		vm.story = {
+			title: '',
+			user: Authentication.user,
+			content: [],
+			locations: {
+					type: 'FeatureCollection',
+					features: []
+				},
+			grams: []
+		};
+
 
 		// CREATE
 		$scope.initCreate = function() {
 			$scope.grams = Grams.query();
-			$scope.selectedGrams = [];
-			$scope.locations = {
-				type: 'FeatureCollection',
-				features: []
-			};
 			vm.step = 1;
 
 			$http.get('/api/grams/sync').success(function () {
@@ -50,16 +55,16 @@ angular.module('stories').controller('StoriesController',
 			});
 		};
 
-		$scope.toggleGram = function(gram) {
-			var pos = $scope.selectedGrams.indexOf(gram);
+		vm.toggleGram = function(gram) {
+			var pos = vm.story.grams.indexOf(gram);
 			if (pos !== -1) {
-				$scope.selectedGrams.splice(pos, 1);
+				vm.story.grams.splice(pos, 1);
 			} else {
-				$scope.selectedGrams.push(gram);
+				vm.story.grams.push(gram);
 			}
 		};
 
-		$scope.compileContent = function() {
+		vm.goToStep2 = function() {
 			var compileGramQs = [],
 				htmlize = function htmlize (gram) {
 					var altered = angular.copy(gram);
@@ -67,20 +72,21 @@ angular.module('stories').controller('StoriesController',
 					return editableGramTpl({gram: altered});
 			};
 
-			$scope.content = '';
+			vm.step = 2;
+			vm.story.content = [];
 
-			window._.each($scope.selectedGrams, function(item) {
+			window._.each(vm.story.grams, function(item) {
 				compileGramQs.push(
 					editableGramTplQ.then(function() { return htmlize(item); })
 				);
 				// locations
 				if (item.location && item.location.geometry.coordinates.length) {
-					$scope.locations.features.push(item.location);
+					vm.story.locations.features.push(item.location);
 				}
 			});
 
 			$q.all(compileGramQs).then(function (results) {
-				$scope.content = results.join('\n');
+				vm.story.content = results.join('\n');
 			});
 
 
@@ -88,16 +94,9 @@ angular.module('stories').controller('StoriesController',
 
 		$scope.create = function() {
 			var story = new Stories({
-				title: this.title,
-				content: this.content,
-				locations: this.locations
 			});
 			story.$save(function(response) {
 				$location.path('stories/' + response._id);
-
-				$scope.title = '';
-				$scope.content = '';
-				$scope.locations.features = [];
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

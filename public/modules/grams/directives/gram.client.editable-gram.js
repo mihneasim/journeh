@@ -4,7 +4,7 @@ angular.module('grams').directive('editableGram', function() {
 
 	return {
 		restrict: 'E',
-		templateUrl: 'modules/grams/views/directives/editable-gram.html',
+		templateUrl: '/modules/grams/views/directives/editable-gram.html',
 		replace: true,
 		scope: {
 			'gram': '=',

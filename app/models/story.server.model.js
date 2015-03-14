@@ -46,8 +46,7 @@ var StorySchema = new Schema({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
-	}
-	],
+	},
 	tags: [ String ],
 	locations: GeoJSON.FeatureCollection
 });

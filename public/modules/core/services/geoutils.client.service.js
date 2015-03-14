@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('core').service('GeoUtils', [
 	'leafletBoundsHelpers',
         function (leafletBoundsHelpers) {

@@ -12,11 +12,11 @@ module.exports = function(app) {
 		.get(stories.list)
 		.post(users.requiresLogin, stories.create);
 
-	app.route('/api/stories/:storyId')
+	app.route('/api/stories/:storySlug')
 		.get(stories.read)
 		.put(users.requiresLogin, stories.hasAuthorization, stories.update)
 		.delete(users.requiresLogin, stories.hasAuthorization, stories.delete);
 
 	// Finish by binding the story middleware
-	app.param('storyId', stories.storyByID);
+	app.param('storySlug', stories.storyBySlug);
 };

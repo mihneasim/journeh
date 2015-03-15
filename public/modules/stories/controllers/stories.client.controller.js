@@ -30,6 +30,7 @@ angular.module('stories').controller('StoriesController',
 			editableGramTplQ = $http.get('/modules/grams/views/draftGramInStory.html')
 									.success(function (data) { editableGramTpl = $interpolate(data); } );
 
+		$scope.authentication = Authentication;
 		vm.step = 1;
 		vm.story = {
 			title: '',
@@ -140,7 +141,7 @@ angular.module('stories').controller('StoriesController',
 		vm.initViewStory = function() {
 			vm.center = {};
 
-			vm.story = Stories.get({storyId: $stateParams.storyId},
+			vm.story = Stories.get({storySlug: $stateParams.storySlug},
 				function () {
 					vm.geojson = { data: vm.story.locations };
 					if (vm.geojson.data.features !== undefined) {

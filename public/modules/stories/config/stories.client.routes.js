@@ -25,11 +25,11 @@ angular.module('stories').config(['$stateProvider', '$injector',
 			},
 		}).
 		state('viewStory', {
-			url: '/stories/:storyId',
+			url: '/stories/:storySlug',
 			templateUrl: '/modules/stories/views/view-story.client.view.html',
 		}).
 		state('editStory', {
-			url: '/stories/:storyId/edit',
+			url: '/stories/:storySlug/edit',
 			templateUrl: '/modules/stories/views/edit-story.client.view.html',
 		});
 	}

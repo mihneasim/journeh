@@ -3,7 +3,7 @@
 		<h1>Stories</h1>
 	</div>
 	<div class="list-group">
-		<a data-ng-repeat="story in stories" data-ng-href="/stories/{{story._id}}" class="list-group-item">
+		<a data-ng-repeat="story in stories" data-ng-href="/stories/{{story.slug}}" class="list-group-item">
 			<small class="list-group-item-text">
 				Posted on
 				<span data-ng-bind="story.created | date:'mediumDate'"></span>

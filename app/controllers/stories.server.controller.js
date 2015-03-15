@@ -30,6 +30,7 @@ exports.create = function(req, res) {
  * Show the current story
  */
 exports.read = function(req, res) {
+	req.story.update({'$inc': {views: 1}}, {w: 1}, function(){});
 	res.jsonp(req.story);
 };
 

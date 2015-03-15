@@ -1,34 +1,30 @@
 'use strict';
 
 angular.module('stories').controller('StoriesController',
-	['$scope', '$stateParams', '$location', '$interpolate', '$http', '$q',
+	['$scope', '$stateParams', '$location', '$http', '$q',
 	'GeoUtils', 'Stories', 'Grams', 'Authentication',
-	function($scope, $stateParams, $location, $interpolate, $http, $q,
+	function($scope, $stateParams, $location, $http, $q,
 			 GeoUtils, Stories, Grams, Authentication) {
 
 		var vm = this,
 			pollNew = function pollNew() {
-			var qDef = $q.defer(),
-				delayed = function() {
-					$http.get('/api/users/me').then(
-						function success(data) {
-							if (data.data.pullFeedScheduled < data.data.pullFeedCompleted) {
-								qDef.resolve(data);
-							} else {
-								return pollNew();
-							}
-						},
-						function error(err) {
-							qDef.reject(err);
-						});
-				};
-				window.setTimeout(delayed, 1000);
+				var qDef = $q.defer(),
+					delayed = function() {
+						$http.get('/api/users/me').then(
+							function success(data) {
+								if (data.data.pullFeedScheduled < data.data.pullFeedCompleted) {
+									qDef.resolve(data);
+								} else {
+									return pollNew();
+								}
+							},
+							function error(err) {
+								qDef.reject(err);
+							});
+					};
+				window.setTimeout(delayed, 1);//1000);
 				return qDef.promise;
-			},
-
-			editableGramTpl,
-			editableGramTplQ = $http.get('/modules/grams/views/draftGramInStory.html')
-									.success(function (data) { editableGramTpl = $interpolate(data); } );
+			};
 
 		$scope.authentication = Authentication;
 		vm.step = 1;
@@ -67,12 +63,6 @@ angular.module('stories').controller('StoriesController',
 		};
 
 		vm.goToStep2 = function() {
-			var compileGramQs = [],
-				htmlize = function htmlize (gram) {
-					var altered = angular.copy(gram);
-					altered.caption = altered.caption.replace(/\n/g, '<br/>');
-					return editableGramTpl({gram: altered});
-			};
 
 			vm.step = 2;
 			vm.story.content = [{itemType: 'intro', caption: 'This is the marvelous story of ' + vm.story.title}];
@@ -108,7 +98,8 @@ angular.module('stories').controller('StoriesController',
 			});
 		};
 
-		$scope.remove = function(story) {
+		// DELETE
+		vm.remove = function(story) {
 			if (story) {
 				story.$remove();
 
@@ -118,17 +109,16 @@ angular.module('stories').controller('StoriesController',
 					}
 				}
 			} else {
-				$scope.story.$remove(function() {
-					$location.path('stories');
+				vm.story.$remove(function() {
+					$location.path('/stories');
 				});
 			}
 		};
 
+		// UPDATE
 		$scope.update = function() {
-			var story = $scope.story;
-
-			story.$update(function() {
-				$location.path('stories/' + story._id);
+			vm.story.$update(function() {
+				$location.path('/stories/' + vm.story.slug);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -136,6 +126,11 @@ angular.module('stories').controller('StoriesController',
 
 		$scope.find = function() {
 			$scope.stories = Stories.query();
+		};
+
+		$scope.findOne = function() {
+			vm.story = Stories.get({storySlug: $stateParams.storySlug},
+								   function(){})
 		};
 
 		vm.initViewStory = function() {

@@ -1,26 +1,35 @@
-<section data-ng-controller="ArticlesController" data-ng-init="findOne()">
+<section data-ng-controller="StoriesController as vm" data-ng-init="findOne()">
 	<div class="page-header">
-		<h1>Edit Article</h1>
+		<h1>Edit story</h1>
 	</div>
 	<div class="col-md-12">
-		<form name="articleForm" class="form-horizontal" data-ng-submit="update(articleForm.$valid)" novalidate>
+		<form name="storyForm" class="form-horizontal" data-ng-submit="update(storyForm.$valid)" novalidate>
 			<fieldset>
-				<div class="form-group" ng-class="{ 'has-error' : submitted && articleForm.title.$invalid}">
+				<div class="form-group" ng-class="{ 'has-error' : submitted && storyForm.title.$invalid}">
 					<label class="control-label" for="title">Title</label>
 					<div class="controls">
-						<input name="title" type="text" data-ng-model="article.title" id="title" class="form-control" placeholder="Title" required>
+						<input name="title" type="text" data-ng-model="vm.story.title" id="title" class="form-control" placeholder="Title" required>
 					</div>
-					<div ng-show="submitted && articleForm.title.$invalid" class="help-block">
-						<p ng-show="articleForm.title.$error.required" class="text-danger">Title is required</p>
+					<div ng-show="submitted && storyForm.title.$invalid" class="help-block">
+						<p ng-show="storyForm.title.$error.required" class="text-danger">Title is required</p>
 					</div>
 				</div>
-				<div class="form-group" ng-class="{ 'has-error' : submitted && articleForm.content.$invalid}">
+				<div class="form-group" ng-class="{ 'has-error' : submitted && storyForm.content.$invalid}">
 					<label class="control-label" for="content">Content</label>
-					<div class="controls">
-						<textarea name="content" data-ng-model="article.content" id="content" class="form-control" cols="30" rows="10" placeholder="Content" required></textarea>
+					<div class="controls" ng-repeat="contentBit in vm.story.content">
+						<img ng-show="contentBit.images && !contentBit.videos" ng-src="{{contentBit.images.standard_resolution.url}}" />
+						<video ng-show="contentBit.videos" width="640" height="640" controls>
+							<source ng-src="{{contentBit.videos.standard_resolution.url}}" type="video/mp4">
+						</video>
+
+						<p name="content" data-medium-editor data-ng-model="contentBit.caption"
+						   class="lead"
+						options="{'buttons': ['bold', 'italic', 'underline', 'anchor', 'header1', 'header2', 'quote', 'image']}"
+										   id="content"></p>
 					</div>
-					<div ng-show="submitted && articleForm.content.$invalid" class="help-block">
-						<p ng-show="articleForm.content.$error.required" class="text-danger">Content is required</p>
+
+					<div ng-show="submitted && storyForm.content.$invalid" class="help-block">
+						<p ng-show="storyForm.content.$error.required" class="text-danger">Content is required</p>
 					</div>
 				</div>
 				<div class="form-group">

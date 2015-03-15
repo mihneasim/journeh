@@ -3,12 +3,20 @@
 		<h1 data-ng-bind="vm.story.title"></h1>
 	</div>
 	<div class="pull-right" data-ng-show="authentication.user._id == vm.story.user._id">
-		<a class="btn btn-primary" href="/stories/{{vm.story._id}}/edit">
+		<a data-ng-show="!rmInitiated" class="btn btn-primary" href="/stories/{{vm.story.slug}}/edit">
 			<i class="glyphicon glyphicon-edit"></i>
 		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
+		<a data-ng-init="rmInitiated=false" data-ng-show="!rmInitiated" class="btn btn-primary" data-ng-click="rmInitiated=true">
 			<i class="glyphicon glyphicon-trash"></i>
 		</a>
+			<div class="alert alert-warning" role="alert" ng-show="rmInitiated">
+				This can not be undone.
+				<span ng-show="vm.story.views > 10">Your story was seen already {{vm.story.views}} times and maybe even saved somewhere.</span>
+				Are you absolutely-doutely sure you want this down the pipe?
+				<a ng-show="rmInitiated" class="btn btn-primary" ng-click="rmInitiated=false; vm.remove()">
+					<i class="glyphicon glyphicon-trash"></i>
+				</a> or <a href="javascript:;" data-ng-click="rmInitiated=false">cancel</a>
+			</div>
 	</div>
 
 	<div class="row">

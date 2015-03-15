@@ -33,8 +33,13 @@
 				</div>
 				<div class="form-group" ng-show="vm.step==2">
 					<label class="control-label" for="content">Content</label>
-					<div class="controls">
-						<p name="content" data-medium-editor data-ng-model="content"
+					<div class="controls" ng-repeat="contentBit in vm.story.content">
+						<img ng-show="contentBit.images && !contentBit.videos" ng-src="{{contentBit.images.standard_resolution.url}}" />
+						<video ng-show="contentBit.videos" width="640" height="640" controls>
+							<source ng-src="{{contentBit.videos.standard_resolution.url}}" type="video/mp4">
+						</video>
+
+						<p name="content" data-medium-editor data-ng-model="contentBit.caption"
 						   class="lead"
 						options="{'buttons': ['bold', 'italic', 'underline', 'anchor', 'header1', 'header2', 'quote', 'image']}"
 										   id="content"></p>

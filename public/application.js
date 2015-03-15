@@ -9,7 +9,16 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 		//$locationProvider.hashPrefix('!');
 		$locationProvider.html5Mode(true);
 	}
-]);
+])
+.config(function($sceDelegateProvider) {
+	  $sceDelegateProvider.resourceUrlWhitelist([
+		   // Allow same origin resource loads.
+		   'self',
+		   // Allow loading from our assets domain.  Notice the difference between * and **.
+		   'http://scontent*.cdninstagram.com/**',
+		   'https://scontent*.cdninstagram.com/**'
+ ]);
+});
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function() {

@@ -24,6 +24,11 @@ var StorySchema = new Schema({
 	},
 	content: [
 		{
+			itemType: {
+				type: String,
+				default: '',
+				trim: true
+		   	},
 			caption: {
 				type: String,
 				default: '',
@@ -48,6 +53,10 @@ var StorySchema = new Schema({
 		ref: 'User'
 	},
 	tags: [ String ],
+	views: {
+		type: Number,
+		default: 1
+	},
 	locations: GeoJSON.FeatureCollection
 });
 

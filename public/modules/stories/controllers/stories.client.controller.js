@@ -39,7 +39,8 @@ angular.module('stories').controller('StoriesController',
 					type: 'FeatureCollection',
 					features: []
 				},
-			grams: []
+			grams: [],
+			tags: []
 		};
 
 
@@ -73,22 +74,24 @@ angular.module('stories').controller('StoriesController',
 			};
 
 			vm.step = 2;
-			vm.story.content = [];
+			vm.story.content = [{itemType: 'intro', caption: 'This is the marvelous story of ' + vm.story.title}];
 
 			window._.each(vm.story.grams, function(item) {
-				compileGramQs.push(
-					editableGramTplQ.then(function() { return htmlize(item); })
-				);
+				vm.story.content.push({
+					itemType: 'gram',
+					images: item.images,
+					videos: item.videos,
+					location: item.location,
+					gram: item,
+					caption: item.caption.replace(/\n/g, '<br/>')
+				});
 				// locations
 				if (item.location && item.location.geometry.coordinates.length) {
 					vm.story.locations.features.push(item.location);
 				}
 			});
 
-			$q.all(compileGramQs).then(function (results) {
-				vm.story.content = results.join('\n');
-			});
-
+			vm.story.content.push({itemType: 'epilogue', caption: 'This is the epilogue of the marvelous story of ' + vm.story.title});
 
 		};
 

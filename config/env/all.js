@@ -32,7 +32,7 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 
-				'public/lib/angular-paginate-anything/src/paginate-anything.js',
+				'public/lib/angular-paginate-anything/dist/paginate-anything.js',
 				'public/lib/lodash/dist/lodash.js',
 				'public/lib/angular-lodash/angular-lodash.js',
 				'public/lib/medium-editor/dist/js/medium-editor.js',

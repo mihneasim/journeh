@@ -30,7 +30,7 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.min.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 
-				'public/lib/angular-paginate-anything/src/paginate-anything.min.js',
+				'public/lib/angular-paginate-anything/dist/paginate-anything.min.js',
 				'public/lib/lodash/dist/lodash.min.js',
 				'public/lib/angular-lodash/angular-lodash.js',
 				'public/lib/medium-editor/dist/js/medium-editor.min.js',

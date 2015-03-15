@@ -33,7 +33,7 @@ angular.module('stories').controller('StoriesController',
 		vm.step = 1;
 		vm.story = {
 			title: '',
-			user: Authentication.user,
+			user: Authentication.user._id,
 			content: [],
 			locations: {
 					type: 'FeatureCollection',
@@ -82,7 +82,7 @@ angular.module('stories').controller('StoriesController',
 					images: item.images,
 					videos: item.videos,
 					location: item.location,
-					gram: item,
+					gram: item._id,
 					caption: item.caption.replace(/\n/g, '<br/>')
 				});
 				// locations
@@ -96,8 +96,10 @@ angular.module('stories').controller('StoriesController',
 		};
 
 		$scope.create = function() {
-			var story = new Stories({
-			});
+			var copy = angular.copy(vm.story),
+				story;
+			copy.grams = undefined;
+			story = new Stories(copy);
 			story.$save(function(response) {
 				$location.path('stories/' + response._id);
 			}, function(errorResponse) {

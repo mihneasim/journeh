@@ -25,7 +25,7 @@
 				<div class="form-group" ng-show="vm.step==1">
 					<label class="control-label">Selected</label>
 					<div ng-repeat="gram in vm.story.grams track by gram._id">
-						<editable-gram gram="gram" full-collection="vm.story.grams"></editable-gram>
+						<editable-gram $last="$last" $first="$first" $middle="$middle" gram="gram" full-collection="vm.story.grams"></editable-gram>
 					</div>
 				</div>
 				<div class="form-group" ng-show="vm.step==1">

@@ -1,7 +1,15 @@
-    <div style="padding: 10px; width: 600px; height: 180px;">
-            <img ng-src="{{gram.images.thumbnail.url}}" style="padding: 10px; float: left;" />
-            <textarea style="clear: both; width: 400px; height:120px; font-size: 13px; font-family: verdana" data-ng-model="gram.caption"></textarea>
-            <span ng-click="moveUp(gram)">&#x25B2;</span>
-            <span ng-click="moveDown(gram)">&#x25BC;</span>
-            <span ng-click="remove(gram)">X</span>
+    <div class="row editable-gram">
+            <div class="col-xs-3 col-xs-offset-1 col-md-3 col-md-offset-1 image-up-down">
+                <div class="up-down">
+                    <span ng-show="!$middle" class="glyphicon">&nbsp;</span>
+                    <span ng-show="!$first" ng-click="moveUp(gram)" class="glyphicon glyphicon-arrow-up stack"></span>
+                    <span ng-show="!$last" ng-click="moveDown(gram)" class="glyphicon glyphicon-arrow-down stack"></span>
+                    <span ng-click="remove(gram)" class="glyphicon glyphicon-remove remove stack"></span>
+                </div>
+                <img ng-src="{{gram.images.thumbnail.url}}" class="image" />
+            </div>
+            <div class="col-xs-7 col-md-7">
+                <div class="caption" data-medium-editor data-ng-model="gram.caption"
+                   class="lead" options="{'buttons': ['bold', 'italic', 'underline']}"></p>
+            </div>
     </div>

@@ -8,6 +8,7 @@ angular.module('grams').directive('editableGram', function() {
 		replace: true,
 		scope: {
 			'gram': '=',
+			'$last': '=', '$first': '=', '$middle': '=',
 			//'collection': '=*fullCollection' # TODO #angular1.3
 			'collection': '=fullCollection'
 		},

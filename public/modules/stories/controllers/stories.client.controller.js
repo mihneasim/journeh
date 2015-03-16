@@ -7,7 +7,7 @@ angular.module('stories').controller('StoriesController',
 			 GeoUtils, Stories, Grams, Authentication) {
 
 		var vm = this,
-			pollNew = function pollNew() {
+			pollNew = function pollNew(delay) {
 				var qDef = $q.defer(),
 					delayed = function() {
 						$http.get('/api/users/me').then(
@@ -22,7 +22,7 @@ angular.module('stories').controller('StoriesController',
 								qDef.reject(err);
 							});
 					};
-				window.setTimeout(delayed, 1);//1000);
+				window.setTimeout(delayed, delay || 2000);
 				return qDef.promise;
 			};
 
@@ -47,7 +47,7 @@ angular.module('stories').controller('StoriesController',
 			vm.step = 1;
 
 			$http.get('/api/grams/sync').success(function () {
-				var syncReady = pollNew();
+				var syncReady = pollNew(1);
 				syncReady.then( function () { $scope.grams = Grams.query(); },
 						    function () { });
 			});
@@ -130,7 +130,7 @@ angular.module('stories').controller('StoriesController',
 
 		$scope.findOne = function() {
 			vm.story = Stories.get({storySlug: $stateParams.storySlug},
-								   function(){})
+								   function(){});
 		};
 
 		vm.initViewStory = function() {

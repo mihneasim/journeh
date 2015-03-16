@@ -3,16 +3,20 @@
 		<h1>New Story</h1>
 	</div>
 	<div class="col-md-12">
-		<form name="storyForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+		<form name="storyForm" id="storyForm" class="form-horizontal" data-ng-submit="create()" novalidate>
 			<fieldset>
-				<div class="form-group" ng-class="{ 'has-error': storyForm.title.$dirty && storyForm.title.$invalid }">
-					<label class="control-label" for="title">Title</label>
-					<div class="controls">
-						<input name="title" type="text" data-ng-model="vm.story.title" id="title" class="form-control" placeholder="Title" required>
-					</div>
-				</div>
 				<div class="form-group" ng-show="vm.step==1">
-					<label class="control-label">Pick the pieces</label>
+					<div class="alert alert-danger" role="alert" ng-cloak ng-show="!grams">
+						Oh dear. We couldn't find any instagram posts. Are you sure you posted some?
+						I say you book a plane, bus or train ticket, charge your phone, hit the road,
+						and get back hear when you have some awesome instragrams!
+					</div>
+					<div ng-show="grams" class="bg-info">
+						<p class=" text-info">This is your Instagram library.</p>
+						<p class=" text-info">
+						Select the instagrams that make up your story.
+						</p>
+					</div>
 					<bgf-pagination
 						collection="grams"
 						template-url="/modules/core/views/parts/paginate-anything.html"
@@ -29,16 +33,31 @@
 					</bgf-pagination>
 				</div>
 				<div class="form-group" ng-show="vm.step==1">
-					<label class="control-label">Selected</label>
+					<div class="bg-info">
+						<p class=" text-info">
+						You can reorder them and edit the captions already,
+						but in the final step you will get the chance to fully edit and format your story.
+						</p>
+					</div>
 					<div ng-repeat="gram in vm.story.grams track by gram._id">
 						<editable-gram $last="$last" $first="$first" $middle="$middle" gram="gram" full-collection="vm.story.grams"></editable-gram>
 					</div>
 				</div>
-				<div class="form-group" ng-show="vm.step==1">
-					<span ng-click="vm.goToStep2()">final step</span>
+				<div ng-show="vm.step==1" class="form-group" ng-class="{ 'has-error': storyForm.title.$dirty && storyForm.title.$invalid }">
+					<div class="controls">
+						<input name="title" type="text" data-ng-model="vm.story.title" id="title" class="form-control" placeholder="Now choose a title for your story" required>
+						<button type="button" class="btn btn-primary" id="toStep2" ng-click="vm.goToStep2()">
+							Final step
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</button>
+					</div>
 				</div>
 				<div class="form-group" ng-show="vm.step==2">
-					<label class="control-label" for="content">Content</label>
+					<div class="form-group" ng-class="{ 'has-error': storyForm.title.$dirty && storyForm.title.$invalid }">
+						<div class="controls">
+							<input name="title_bis" type="text" data-ng-model="vm.story.title" id="title_bis" class="form-control" placeholder="Choose a title for your story" required>
+						</div>
+					</div>
 					<div class="controls" ng-repeat="contentBit in vm.story.content">
 						<img ng-show="contentBit.images && !contentBit.videos" ng-src="{{contentBit.images.standard_resolution.url}}" />
 						<video ng-show="contentBit.videos" width="640" height="640" controls>
@@ -52,8 +71,16 @@
 					</div>
 				</div>
 				<div class="form-group" ng-show="vm.step==2">
-					<input type="submit" class="btn btn-default">
-					<span ng-click="vm.step = 1">previous step</span>
+
+					<button type="button" class="btn btn-primary" id="submit" ng-click="create()">
+						<span class="glyphicon glyphicon-cloud-upload"></span>
+						Post story
+					</button>
+
+					<button type="button" class="btn btn-default" id="submit" ng-click="vm.step = 1">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+						previous step
+					</button>
 				</div>
 				<div data-ng-show="error" class="text-danger">
 					<strong data-ng-bind="error"></strong>

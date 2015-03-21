@@ -3,8 +3,8 @@
 module.exports = function(grunt) {
 	// Unified Watch Object
 	var watchFiles = {
-		serverViews: ['app/views/**/*.*'], 
-		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js'],
+		serverViews: ['app/views/**/*.*'],
+		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', '!app/tests/'],
 		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
 		clientCSS: ['public/modules/**/*.css'],
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 			clientViews: {
 				files: watchFiles.clientViews,
 				options: {
-					livereload: true,
+					livereload: true
 				}
 			},
 			clientJS: {
@@ -47,6 +47,10 @@ module.exports = function(grunt) {
 				options: {
 					livereload: true
 				}
+			},
+			mochaTests: {
+				files: watchFiles.mochaTests,
+				tasks: ['test:server']
 			}
 		},
 		jshint: {
@@ -59,7 +63,7 @@ module.exports = function(grunt) {
 		},
 		csslint: {
 			options: {
-				csslintrc: '.csslintrc',
+				csslintrc: '.csslintrc'
 			},
 			all: {
 				src: watchFiles.clientCSS
@@ -105,23 +109,55 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-        ngmin: {
-            production: {
-                files: {
-                    'public/dist/application.js': '<%= applicationJavaScriptFiles %>'
-                }
-            }
-        },
+		ngAnnotate: {
+			production: {
+				files: {
+					'public/dist/application.js': '<%= applicationJavaScriptFiles %>'
+				}
+			}
+		},
 		concurrent: {
 			default: ['nodemon', 'watch'],
 			debug: ['nodemon', 'watch', 'node-inspector'],
 			options: {
-				logConcurrentOutput: true
+				logConcurrentOutput: true,
+				limit: 10
 			}
+		},
+		aws: {
+			accessKeyId: process.env.AWS_ID,
+			secretAccessKey: process.env.AWS_SECRET,
+			bucket: process.env.AWS_BUCKET,
+			distributionId: process.env.AWS_CF
+		},
+		s3: {
+		  options: {
+			accessKeyId: "<%= aws.accessKeyId %>",
+			secretAccessKey: "<%= aws.secretAccessKey %>",
+			bucket: "<%= aws.bucket %>"
+		  },
+		  build: {
+			cwd: "public/",
+			src: ["dist/*.min.*", "lib/**"],
+			dest: "public/"
+		  }
+		},
+		cloudfront: {
+		  options: {
+			accessKeyId: "<%= aws.accessKeyId %>",
+			secretAccessKey: "<%= aws.secretAccessKey %>",
+			distributionId: "<%= aws.distributionId %>",
+			invalidations: [
+			  "/public/dist/*.min.*"
+			]
+		  }
 		},
 		env: {
 			test: {
 				NODE_ENV: 'test'
+			},
+			secure: {
+				NODE_ENV: 'secure'
 			}
 		},
 		mochaTest: {
@@ -138,7 +174,7 @@ module.exports = function(grunt) {
 		}
 	});
 
-	// Load NPM tasks 
+	// Load NPM tasks
 	require('load-grunt-tasks')(grunt);
 
 	// Making grunt default to force in order not to break the project.
@@ -159,12 +195,17 @@ module.exports = function(grunt) {
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'concurrent:debug']);
 
+	// Secure task(s).
+	grunt.registerTask('secure', ['env:secure', 'lint', 'concurrent:default']);
+
 	// Lint task(s).
 	grunt.registerTask('lint', ['jshint', 'csslint']);
 
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'loadConfig', 'ngmin', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin', 's3', 'cloudfront']);
 
 	// Test task.
-	grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
+	grunt.registerTask('test', ['test:server', 'test:client']);
+	grunt.registerTask('test:server', ['env:test', 'mochaTest']);
+	grunt.registerTask('test:client', ['env:test', 'karma:unit']);
 };

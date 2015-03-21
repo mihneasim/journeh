@@ -13,7 +13,7 @@
 		"angular-ui-utils": "~0.1.1",
 		"angular-ui-router": "~0.2.10",
 
-		"angular-paginate-anything": "~4.0.1",
+		"angular-paginate-anything": "4.0.2",
 
 		"lodash": "~2.4.1",
 		"angular-lodash": "~0.1.2",

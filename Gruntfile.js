@@ -148,7 +148,8 @@ module.exports = function(grunt) {
 			secretAccessKey: '<%= aws.secretAccessKey %>',
 			distributionId: '<%= aws.distributionId %>',
 			invalidations: [
-			  '/public/dist/*.min.*'
+			  '/public/dist/application.min.js',
+			  '/public/dist/application.min.css'
 			]
 		  }
 		},

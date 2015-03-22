@@ -13,3 +13,10 @@
 .ng-valid.ng-dirty{
     border-color:#78FA89;
 }
+
+.jumbotron.homepage {
+	background-image: url('/modules/core/img/brand/sunset.jpg');
+	background-position: center 320px;
+	height: 270px;
+	color: white;
+}

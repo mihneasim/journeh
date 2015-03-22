@@ -27,6 +27,7 @@ angular.module('stories').controller('StoriesController',
 			};
 
 		$scope.authentication = Authentication;
+		vm.perPage = 12; // pickable instagrams pagination items
 		vm.step = 1;
 		vm.story = {
 			title: '',

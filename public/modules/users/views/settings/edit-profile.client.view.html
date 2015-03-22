@@ -1,7 +1,10 @@
 <section class="row" data-ng-controller="SettingsController">
 	<h3 class="col-md-12 text-center">Edit your profile</h3>
-	<div class="col-xs-offset-2 col-xs-8 col-md-offset-5 col-md-2">
-		<p ng-if="params.reason && params.reason=='missing_email'">We need you to complete your profile before continuing</p>
+	<div class="col-xs-offset-2 col-xs-8 col-md-offset-2 col-md-8">
+		<p ng-if="params.reason && params.reason=='missing_email'" class="text-info">
+		Instagram doesn't provide us name or email.
+		We need you to fill in this info for a full Journeh experience.
+		</p>
 		<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
 			<fieldset>
 				<div class="form-group">

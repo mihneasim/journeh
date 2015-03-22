@@ -45,7 +45,7 @@ module.exports = function() {
 				lastName: profile.name.familyName,
 				displayName: profile.displayName,
 				email: null,
-				picture: providerData.profile_picture,
+				picture: providerData.data.profile_picture,
 				username: profile.username,
 				provider: 'instagram',
 				providerIdentifierField: 'id',

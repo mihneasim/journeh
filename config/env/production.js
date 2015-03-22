@@ -55,12 +55,12 @@ module.exports = {
 	instagram: {
 		clientID: process.env.INSTAGRAM_ID || 'APP_ID',
 		clientSecret: process.env.INSTAGRAM_SECRET || 'APP_SECRET',
-		callbackURL: 'http://localhost:3000/auth/instagram/callback'
+		callbackURL: 'http://journeh.com/auth/instagram/callback'
 	},
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',
 		clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
-		callbackURL: 'http://localhost:3000/auth/facebook/callback'
+		callbackURL: 'http://journeh.com/auth/facebook/callback'
 	},
 	mailer: {
 		from: process.env.MAILER_FROM || 'MAILER_FROM',

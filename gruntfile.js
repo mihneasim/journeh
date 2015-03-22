@@ -132,23 +132,23 @@ module.exports = function(grunt) {
 		},
 		s3: {
 		  options: {
-			accessKeyId: "<%= aws.accessKeyId %>",
-			secretAccessKey: "<%= aws.secretAccessKey %>",
-			bucket: "<%= aws.bucket %>"
+			accessKeyId: '<%= aws.accessKeyId %>',
+			secretAccessKey: '<%= aws.secretAccessKey %>',
+			bucket: '<%= aws.bucket %>'
 		  },
 		  build: {
-			cwd: "public/",
-			src: ["dist/*.min.*", "lib/**"],
-			dest: "public/"
+			cwd: 'public/',
+			src: ['dist/*.min.*', 'lib/**'],
+			dest: 'public/'
 		  }
 		},
 		cloudfront: {
 		  options: {
-			accessKeyId: "<%= aws.accessKeyId %>",
-			secretAccessKey: "<%= aws.secretAccessKey %>",
-			distributionId: "<%= aws.distributionId %>",
+			accessKeyId: '<%= aws.accessKeyId %>',
+			secretAccessKey: '<%= aws.secretAccessKey %>',
+			distributionId: '<%= aws.distributionId %>',
 			invalidations: [
-			  "/public/dist/*.min.*"
+			  '/public/dist/*.min.*'
 			]
 		  }
 		},

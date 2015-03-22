@@ -53,11 +53,21 @@ module.exports.getGlobbedFiles = function(globPatterns, removeRoot) {
 	return output;
 };
 
+module.exports.getCdnUrl = function (path) {
+	return this.assets.cdn.root + path;
+};
+
 /**
  * Get the modules JavaScript files
  */
 module.exports.getJavaScriptAssets = function(includeTests) {
-	var output = this.getGlobbedFiles(this.assets.lib.js.concat(this.assets.js), 'public');
+	var output = this.getGlobbedFiles(this.assets.lib.js, 'public');
+	if (this.assets.cdn) {
+		output = _.union(output, _.map(this.assets.cdn.lib.js, this.getCdnUrl, this));
+		output = output.concat(this.getCdnUrl(this.assets.cdn.js));
+	} else {
+		output = _.union(output, this.getGlobbedFiles([this.assets.js], 'public'));
+	}
 
 	// To include tests
 	if (includeTests) {
@@ -71,6 +81,13 @@ module.exports.getJavaScriptAssets = function(includeTests) {
  * Get the modules CSS files
  */
 module.exports.getCSSAssets = function() {
-	var output = this.getGlobbedFiles(this.assets.lib.css.concat(this.assets.css), 'public');
+	var output = this.getGlobbedFiles(this.assets.lib.css, 'public');
+	if (this.assets.cdn) {
+		output = output.concat(this.getCdnUrl(this.assets.cdn.css));
+		output = _.union(output, _.map(this.assets.cdn.lib.css, this.getCdnUrl, this));
+	} else {
+		output = _.union(output, this.getGlobbedFiles([this.assets.css], 'public'));
+	}
+
 	return output;
 };

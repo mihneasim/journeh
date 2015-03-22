@@ -9,39 +9,48 @@ module.exports = {
 			}
 	},
 	assets: {
+		cdn: {
+			root: process.env.CDN || '//cdn.journeh.com',
+			css: '/public/dist/application.min.css',
+			js: '/public/dist/application.min.js',
+			lib: {
+				css: [
+					'/public/lib/bootstrap/dist/css/bootstrap.min.css',
+					'/public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+
+					'/public/lib/medium-editor/dist/css/medium-editor.min.css',
+					'/public/lib/medium-editor/dist/css/themes/bootstrap.min.css',
+
+					'/public/lib/leaflet/dist/leaflet.css'
+				],
+				js: [
+					'/public/lib/angular/angular.min.js',
+					'/public/lib/angular-resource/angular-resource.js',
+					'/public/lib/angular-animate/angular-animate.js',
+					'/public/lib/angular-sanitize/angular-sanitize.js',
+					'/public/lib/angular-ui-router/release/angular-ui-router.min.js',
+					'/public/lib/angular-ui-utils/ui-utils.min.js',
+					'/public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
+
+					'/public/lib/angular-paginate-anything/dist/paginate-anything.min.js',
+					'/public/lib/lodash/dist/lodash.min.js',
+					'/public/lib/angular-lodash/angular-lodash.js',
+					'/public/lib/medium-editor/dist/js/medium-editor.min.js',
+					'/public/lib/angular-medium-editor/dist/angular-medium-editor.min.js',
+
+					'/public/lib/leaflet/dist/leaflet.js',
+					'/public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js'
+				]
+			}
+		},
 		lib: {
-			css: [
-				'public/lib/bootstrap/dist/css/bootstrap.min.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
-
-				'public/lib/medium-editor/dist/css/medium-editor.min.css',
-				'public/lib/medium-editor/dist/css/themes/bootstrap.min.css',
-
-				'public/lib/leaflet/dist/leaflet.css'
-			],
+			css: [],
 			js: [
-				'//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js',
-
-				'public/lib/angular/angular.min.js',
-				'public/lib/angular-resource/angular-resource.js',
-				'public/lib/angular-animate/angular-animate.js',
-				'public/lib/angular-sanitize/angular-sanitize.js',
-				'public/lib/angular-ui-router/release/angular-ui-router.min.js',
-				'public/lib/angular-ui-utils/ui-utils.min.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-
-				'public/lib/angular-paginate-anything/dist/paginate-anything.min.js',
-				'public/lib/lodash/dist/lodash.min.js',
-				'public/lib/angular-lodash/angular-lodash.js',
-				'public/lib/medium-editor/dist/js/medium-editor.min.js',
-				'public/lib/angular-medium-editor/dist/angular-medium-editor.min.js',
-
-				'public/lib/leaflet/dist/leaflet.js',
-				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js'
+				'//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js'
 			]
 		},
-		css: 'public/dist/application.min.css',
-		js: 'public/dist/application.min.js'
+		css: null,
+		js: null
 	},
 	instagram: {
 		clientID: process.env.INSTAGRAM_ID || 'APP_ID',

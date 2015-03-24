@@ -140,6 +140,11 @@ module.exports = function(grunt) {
 			cwd: 'public/',
 			src: ['dist/*.min.*', 'lib/**'],
 			dest: 'public/'
+		  },
+		  modules: {
+			cwd: 'public/modules/',
+			src: 'core/img/**',
+			dest: 'modules/'
 		  }
 		},
 		cloudfront: {

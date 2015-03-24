@@ -20,12 +20,12 @@ var db = mongoose.connect(config.db, function(err) {
 	}
 });
 
-var queue,
-	mqueue = amqp.createConnection({url: config.queue.server});
+var mqueue = amqp.createConnection({url: config.queue.server});
 
 mqueue.on('ready', function() {
-		queue = mqueue.queue(config.queue.jobTypes.instagramFeed, {durable: true});
-		console.log('Queue instagramFeed is open');
+		mqueue.queue(config.queue.jobTypes.instagramFeed, {durable: true});
+		mqueue.queue(config.queue.jobTypes.cloneAssets, {durable: true});
+		console.log('Queues are open on express web server');
 });
 
 // Init the express application
@@ -34,8 +34,9 @@ var app = require('./config/express')(db, mqueue);
 // Bootstrap passport config
 require('./config/passport')();
 
-// Start the app by listening on <port>
-app.listen(config.port);
+// Start the app by listening on <port>,
+// localhost - make sure we don't go "out in the wild"
+app.listen(config.port, '127.0.0.1');
 
 // Expose app
 exports = module.exports = app;

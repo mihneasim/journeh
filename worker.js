@@ -44,6 +44,21 @@ mqueue.on('ready', function() {
 				console.log('ack');
 			}
 		);
+
+		queue = mqueue.queue(config.queue.jobTypes.cloneAssets, {durable: true});
+		console.log('Queue cloneAssets is open');
+		queue.subscribe({
+				ack: true, prefetchCount: 1,
+			},
+			function (message, headers, deliveryInfo, messageObject) {
+				console.log('received job', message.userId);
+				// do your think, worker
+				// ..
+				messageObject.acknowledge(false);
+				console.log('ack');
+			}
+		);
+
 });
 
 

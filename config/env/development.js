@@ -5,7 +5,8 @@ module.exports = {
 	queue: {
 			server: 'amqp://localhost:5672',
 			jobTypes: {
-				instagramFeed: 'instagram.feed'
+				instagramFeed: 'instagram.feed',
+				cloneAssets: 'cloneassets',
 			}
 	},
 	app: {

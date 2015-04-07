@@ -9,6 +9,12 @@ module.exports = {
 				cloneAssets: 'dev.cloneassets'
 			}
 	},
+	aws: {
+		accessKeyId: process.env.AWS_ID,
+		secretAccessKey: process.env.AWS_SECRET,
+		bucket: process.env.AWS_BUCKET,
+		distributionId: process.env.AWS_CF
+	},
 	assets: {
 		cdn: {
 			root: process.env.CDN || '//cdn.journeh.com',

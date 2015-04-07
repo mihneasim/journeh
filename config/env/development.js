@@ -1,6 +1,9 @@
 'use strict';
 
 module.exports = {
+	app: {
+		title: 'journeh - Development Environment'
+	},
 	db: 'mongodb://localhost/journeh-dev',
 	queue: {
 			server: 'amqp://localhost:5672',
@@ -9,8 +12,11 @@ module.exports = {
 				cloneAssets: 'cloneassets',
 			}
 	},
-	app: {
-		title: 'journeh - Development Environment'
+	aws: {
+		accessKeyId: process.env.AWS_ID,
+		secretAccessKey: process.env.AWS_SECRET,
+		bucket: process.env.AWS_DEV_BUCKET,
+		distributionId: process.env.AWS_DEV_CF
 	},
 	instagram: {
 		clientID: process.env.INSTAGRAM_ID || 'APP_ID',

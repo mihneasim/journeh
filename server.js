@@ -29,7 +29,7 @@ mqueue.on('ready', function() {
 });
 
 // Init the express application
-var app = require('./config/express')(db, mqueue);
+var app = require('./config/express')(db, mqueue, config.aws);
 
 // Bootstrap passport config
 require('./config/passport')();

@@ -18,9 +18,10 @@ var express = require('express'),
 	flash = require('connect-flash'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
-	path = require('path');
+	path = require('path'),
+	knox = require('knox');
 
-module.exports = function(db, mqueue) {
+module.exports = function(db, mqueue, aws) {
 	// Initialize express app
 	var app = express();
 
@@ -39,6 +40,13 @@ module.exports = function(db, mqueue) {
 
 	// AMQP
 	app.mqueue = mqueue;
+
+	// AWS S3 KNOX
+	app.s3client = knox.createClient({
+	    key: aws.accessKeyId,
+		secret: aws.secretAccessKey,
+		bucket: aws.bucket
+	});
 
 	// Passing the request url to environment locals
 	app.use(function(req, res, next) {

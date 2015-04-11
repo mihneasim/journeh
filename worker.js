@@ -27,9 +27,10 @@ mqueue.on('error', function(e) {
 });
 
 // Init the express application
-var app = require('./config/express')(db, mqueue);
+var app = require('./config/express')(db, mqueue, config.aws);
 
-var gramController = require('./app/controllers/grams');
+var gramController = require('./app/controllers/grams'),
+	userController = require('./app/controllers/users');
 
 mqueue.on('ready', function() {
 		queue = mqueue.queue(config.queue.jobTypes.instagramFeed, {durable: true});
@@ -38,7 +39,7 @@ mqueue.on('ready', function() {
 				ack: true, prefetchCount: 1,
 			},
 			function (message, headers, deliveryInfo, messageObject) {
-				console.log('received job', message.userId);
+				console.log('received instagramfeed job', message.userId);
 				gramController.pullFeed(message.userId);
 				messageObject.acknowledge(false);
 				console.log('ack');
@@ -46,14 +47,14 @@ mqueue.on('ready', function() {
 		);
 
 		queue = mqueue.queue(config.queue.jobTypes.cloneAssets, {durable: true});
-		console.log('Queue cloneAssets is open');
+		console.log('Queue %s is open', config.queue.jobTypes.cloneAssets);
 		queue.subscribe({
 				ack: true, prefetchCount: 1,
 			},
 			function (message, headers, deliveryInfo, messageObject) {
-				console.log('received job', message.userId);
+				console.log('received cloneassets job', message.userId);
 				// do your think, worker
-				// ..
+				userController.saveLocalPicture(message.userId, app.s3client);
 				messageObject.acknowledge(false);
 				console.log('ack');
 			}

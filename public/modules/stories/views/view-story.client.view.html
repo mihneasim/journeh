@@ -43,6 +43,9 @@
 					</a>
 					<img class="avatar" ng-src="{{ vm.story.user.picture | cdnize }}" ng-show="vm.story.user.picture" />
 				</em>
+				<em class="text-muted">
+					{{ vm.story.user.bio }}
+				</em>
 			</small>
 		</div>
 		<div class="col-md-2 col-xs-10" ng-if="vm.story.views > 40">

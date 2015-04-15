@@ -66,10 +66,10 @@ var UserSchema = new Schema({
 		type: String,
 		required: 'Provider is required'
 	},
-	//providerPicture: {
-		//type: String
-	//},
 	picture: {
+		type: String
+	},
+	bio: {
 		type: String
 	},
 	providerData: {},

@@ -50,7 +50,7 @@ module.exports = function() {
 				lastName: profile.name.familyName,
 				displayName: profile.displayName,
 				email: null,
-				//providerPicture: providerData.data.profile_picture,
+				bio: providerData.data.bio,
 				username: profile.username,
 				provider: 'instagram',
 				providerIdentifierField: 'id',

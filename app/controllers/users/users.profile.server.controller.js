@@ -54,11 +54,10 @@ exports.update = function(req, res) {
 exports.saveLocalPicture = function(userId, s3client, callback_done) {
 	// upload providerPicture to S3 and save path into picture
 
-	User.findOne({_id: userId}).populate('providerData', 'picture').exec(function (err, user) {
+	User.findOne({_id: userId}).exec(function (err, user) {
 		var providerPicture;
 
 		if (user !== null) {
-			console.log(user, )
 			providerPicture = user.providerData.data.profile_picture;
 
 			request(providerPicture, {encoding: null}, function(err, res, body) {
@@ -68,11 +67,13 @@ exports.saveLocalPicture = function(userId, s3client, callback_done) {
 				if(!err && res.statusCode === 200) {
 					req = s3client.put('/users/' + userId + '/' + filename, {
 						'Content-Type': res.headers['content-type'],
-						'Content-Length': res.headers['content-length']
+						'Content-Length': res.headers['content-length'],
+						'x-amz-acl': 'public-read'
 					});
 
 					req.on('response', function(res) {
 						console.log('response from s3, status:', res.statusCode, 'url:', req.url);
+						user.update({picture: req.url}, {w: 1}, function(){});
 					});
 
 					req.on('error', function(err) {

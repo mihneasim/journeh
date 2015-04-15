@@ -100,7 +100,7 @@ exports.storyByID = function(req, res, next, id) {
 };
 
 exports.storyBySlug = function(req, res, next, slug) {
-	Story.findOne({ slug: slug }).populate('user', 'displayName username').exec(function(err, story) {
+	Story.findOne({ slug: slug }).populate('user', 'displayName username picture').exec(function(err, story) {
 		if (err) return next(err);
 		if (!story) return next(new Error('Failed to load story ' + slug));
 		req.story = story;

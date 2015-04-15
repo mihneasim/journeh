@@ -13,7 +13,7 @@
 				This can not be undone.
 				<span ng-show="vm.story.views > 10">Your story was seen already {{vm.story.views}} times and maybe even saved somewhere.</span>
 				Are you absolutely-doutely sure you want this down the pipe?
-				<a ng-show="rmInitiated" class="btn btn-primary" ng-click="rmInitiated=false; vm.remove()">
+				<a ng-show="rmInitiated" class="btn btn-danger" ng-click="rmInitiated=false; vm.remove()">
 					<i class="glyphicon glyphicon-trash"></i>
 				</a> or <a href="javascript:;" data-ng-click="rmInitiated=false">cancel</a>
 			</div>

@@ -41,7 +41,7 @@
 					<a ng-href="https://instagram.com/{{vm.story.user.username}}/" target="_blank">
 						<span data-ng-bind="vm.story.user.displayName"></span>
 					</a>
-					<img class="avatar" ng-src="vm.story.user.picture" ng-show="vm.story.user.picture" />
+					<img class="avatar" ng-src="{{ vm.story.user.picture | cdnize }}" ng-show="vm.story.user.picture" />
 				</em>
 			</small>
 		</div>

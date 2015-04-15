@@ -93,7 +93,7 @@ angular.module('stories').controller('StoriesController',
 			copy.grams = undefined;
 			story = new Stories(copy);
 			story.$save(function(response) {
-				$location.path('stories/' + response._id);
+				$location.path('stories/' + response.slug);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

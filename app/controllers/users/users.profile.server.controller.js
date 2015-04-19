@@ -126,8 +126,8 @@ exports.deleteAccount = function (req, res) {
 
 	// Delete user, allow signals to clean up related objects
 	user.remove().then(
-		function() { res.jsonp({error: null}) },
-		function(error) { res.jsonp({error: error}) }
+		function() { res.jsonp({error: null}); },
+		function(error) { res.jsonp({error: error}); }
 	);
 
 };

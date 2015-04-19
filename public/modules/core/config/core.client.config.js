@@ -4,7 +4,6 @@ angular.module('core')
 .value('CDN', {'journeh': 'd1cda9fzfodqce.cloudfront.net'})
 .filter('cdnize', ['CDN', function(CDN) {
     return function (input) {
-        console.log("called with ", input);
         var bucketSearch = input.match(/https?:\/\/([^\/]+)\/([^\/]+)\//),
             domain,
             bucket;

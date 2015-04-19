@@ -77,12 +77,12 @@ describe('User Model Unit Tests:', function() {
 			})
 			.then(function (user) {
 				user.remove().then(function(){
-					done()
+					done();
 					// TODO test related objects are removed
 				});
-			})
+			});
 
-		})
+		});
 	});
 
 

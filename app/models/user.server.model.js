@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
+	_ = require('lodash'),
 	crypto = require('crypto');
 
 /**
@@ -119,8 +120,13 @@ UserSchema.pre('save', function(next) {
 /**
  * On user remove, remove related stuff
  */
-//UserSchema.post('remove', function(doc) { 
-	//StorySchema.find({user: doc._id}
+//UserSchema.post('remove', function(doc) {
+	//StorySchema.find({user: doc._id})
+		//.exec(function (err, docs) {
+			//_(docs).each(function (doc) {
+				//doc.remove();
+			//});
+		//});
 //});
 
 

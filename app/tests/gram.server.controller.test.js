@@ -97,8 +97,9 @@ describe('Gram Controller Unit Tests:', function() {
     });
 
     it('should return only grams of loggedin user', function(done) {
-        var req = sinon.stub(),
-            res = sinon.spy(),
+        var req = sinon.stub({headers: {}}),
+            res = sinon.stub({setHeader: function() {},
+                              jsonp: function(data) {}}),
             returned;
         Q.all([
             Q.nfcall((new Gram({instagramId: 666, user: user})).save),

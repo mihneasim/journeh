@@ -117,6 +117,14 @@ UserSchema.pre('save', function(next) {
 });
 
 /**
+ * On user remove, remove related stuff
+ */
+//UserSchema.post('remove', function(doc) { 
+	//StorySchema.find({user: doc._id}
+//});
+
+
+/**
  * Create instance method for hashing a password
  */
 UserSchema.methods.hashPassword = function(password) {

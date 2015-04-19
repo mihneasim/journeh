@@ -66,6 +66,7 @@ exports.read = function(req, res) {
  * List of Grams
  */
 exports.list = function(req, res) {
+
 	Gram.count({user: req.user}, function (err, totalItems) {
 		var queryParameters = paginate(req, res, totalItems, 20);
 		if (!totalItems) {

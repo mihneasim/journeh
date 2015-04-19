@@ -64,6 +64,8 @@ StorySchema.index({ user: 1 });
 StorySchema.index({ tags: 1 });
 StorySchema.index({ locations: 1 }, {type: '2dsphere'});
 
+StorySchema.post('remove', function(doc) { });
+
 StorySchema.plugin(URLSlugs('title'));
 
 mongoose.model('Story', StorySchema);

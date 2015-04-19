@@ -16,7 +16,7 @@ var user, user2;
  * Unit tests
  */
 describe('User Model Unit Tests:', function() {
-	before(function(done) {
+	beforeEach(function(done) {
 		user = new User({
 			firstName: 'Full',
 			lastName: 'Name',
@@ -68,7 +68,25 @@ describe('User Model Unit Tests:', function() {
 		});
 	});
 
-	after(function(done) {
+	describe('Method Remove', function() {
+		it('should remove the user', function(done) {
+			var userSaved = user.save();
+			userSaved.then(function (user) {
+				should.exist(user._id);
+				return user;
+			})
+			.then(function (user) {
+				user.remove().then(function(){
+					done()
+					// TODO test related objects are removed
+				});
+			})
+
+		})
+	});
+
+
+	afterEach(function(done) {
 		User.remove().exec();
 		done();
 	});

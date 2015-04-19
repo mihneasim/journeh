@@ -6,6 +6,12 @@ module.exports = {
 		description: 'because your instagrams make a hell of a story',
 		keywords: 'instagram,blog,travel,journal,diary,explore,photo,story'
 	},
+	aws: {
+		accessKeyId: process.env.AWS_ID,
+		secretAccessKey: process.env.AWS_SECRET,
+		bucket: process.env.AWS_BUCKET,
+		distributionId: process.env.AWS_CF
+	},
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',

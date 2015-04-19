@@ -120,3 +120,14 @@ exports.scheduleSaveLocalPicture = function (queue, user) {
 exports.me = function(req, res) {
 	res.jsonp(req.user || null);
 };
+
+exports.deleteAccount = function (req, res) {
+	var user = req.user;
+
+	// Delete user, allow signals to clean up related objects
+	user.remove().then(
+		function() { res.jsonp({error: null}) },
+		function(error) { res.jsonp({error: error}) }
+	);
+
+};

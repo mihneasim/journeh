@@ -125,9 +125,18 @@ exports.deleteAccount = function (req, res) {
 	var user = req.user;
 
 	// Delete user, allow signals to clean up related objects
-	user.remove().then(
-		function() { res.jsonp({error: null}); },
-		function(error) { res.jsonp({error: error}); }
-	);
+	user.remove(function (err, doc) {
+		if (err) {
+			res.jsonp({error: err});
+		} else {
+			// TODO we should rem all objects with user._id prefix using queue
+			req.app.s3client.del('/users/' + user._id + '/' + user.picture)
+			.on('response',
+				function(resp){
+					resp.jsonp({error: null});
+				}
+			).end();
+		}
+	});
 
 };

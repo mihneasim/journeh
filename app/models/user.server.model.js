@@ -120,14 +120,23 @@ UserSchema.pre('save', function(next) {
 /**
  * On user remove, remove related stuff
  */
-//UserSchema.post('remove', function(doc) {
-	//StorySchema.find({user: doc._id})
-		//.exec(function (err, docs) {
-			//_(docs).each(function (doc) {
-				//doc.remove();
-			//});
-		//});
-//});
+UserSchema.post('remove', function(doc) {
+	var Story = mongoose.model('Story'),
+	    Gram = mongoose.model('Gram');
+
+	Story.find({user: doc._id})
+		.exec(function (err, docs) {
+			_(docs).each(function (doc) {
+				doc.remove();
+			});
+		});
+	Gram.find({user: doc._id})
+		.exec(function (err, docs) {
+			_(docs).each(function (doc) {
+				doc.remove();
+			});
+		});
+});
 
 
 /**

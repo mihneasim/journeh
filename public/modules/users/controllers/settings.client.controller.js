@@ -2,6 +2,7 @@
 
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', '$state', '$stateParams', 'Users', 'Authentication',
 	function($scope, $http, $location, $state, $stateParams, Users, Authentication) {
+		var vm = this;
 		$scope.user = Authentication.user;
 		$scope.params = $stateParams;
 
@@ -69,6 +70,12 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 				$scope.passwordDetails = null;
 			}).error(function(response) {
 				$scope.error = response.message;
+			});
+		};
+
+		vm.removeAccount = function () {
+			$http.delete('/api/users/me').then(function(){
+				window.location = '/auth/signout';
 			});
 		};
 	}

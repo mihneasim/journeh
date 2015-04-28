@@ -30,7 +30,15 @@ mqueue.on('error', function(e) {
 var app = require('./config/express')(db, mqueue, config.aws);
 
 var gramController = require('./app/controllers/grams'),
-	userController = require('./app/controllers/users');
+	userController = require('./app/controllers/users'),
+	task = {
+		saveLocalPicture: function (message, app) {
+			return userController.saveLocalPicture(message.userId, app.s3client);
+		},
+		removeUserAssets: function (message, app) {
+			return userController.removeUserAssets(message.userId, app.s3client);
+		}
+	};
 
 mqueue.on('ready', function() {
 		queue = mqueue.queue(config.queue.jobTypes.instagramFeed, {durable: true});
@@ -46,15 +54,15 @@ mqueue.on('ready', function() {
 			}
 		);
 
-		queue = mqueue.queue(config.queue.jobTypes.cloneAssets, {durable: true});
-		console.log('Queue %s is open', config.queue.jobTypes.cloneAssets);
+		queue = mqueue.queue(config.queue.jobTypes.s3Assets, {durable: true});
+		console.log('Queue %s is open', config.queue.jobTypes.s3Assets);
 		queue.subscribe({
 				ack: true, prefetchCount: 1,
 			},
 			function (message, headers, deliveryInfo, messageObject) {
-				console.log('received cloneassets job', message.userId);
-				// do your think, worker
-				userController.saveLocalPicture(message.userId, app.s3client);
+				console.log('received s3assets job', messageObject.type, message.userId);
+				// do your thing, worker
+				task[messageObject.type](message, app);
 				messageObject.acknowledge(false);
 				console.log('ack');
 			}

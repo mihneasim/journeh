@@ -20,7 +20,7 @@ exports.update = function(req, res) {
 	var user = req.user;
 	var message = null;
 
-	// For security measurement we remove the roles from the req.body object
+	// For security measurement weeremove the roles from the req.body object
 	delete req.body.roles;
 
 	if (user) {
@@ -51,7 +51,7 @@ exports.update = function(req, res) {
 	}
 };
 
-exports.saveLocalPicture = function(userId, s3client, callback_done) {
+exports.saveLocalPicture = function(userId, s3client) {
 	// upload providerPicture to S3 and save path into picture
 
 	User.findOne({_id: userId}).exec(function (err, user) {
@@ -62,10 +62,15 @@ exports.saveLocalPicture = function(userId, s3client, callback_done) {
 
 			request(providerPicture, {encoding: null}, function(err, res, body) {
 				var req,
-					filename = providerPicture.match(/[^/]+$/)[0];
+					filename = providerPicture.match(/[^/]+$/)[0],
+					s3path = '/users/' + userId + '/' + filename;
+
+				if (user.picture && user.picture.endsWith(s3path)) {
+					return Q.when(user.picture);
+				}
 
 				if(!err && res.statusCode === 200) {
-					req = s3client.put('/users/' + userId + '/' + filename, {
+					req = s3client.put(s3path, {
 						'Content-Type': res.headers['content-type'],
 						'Content-Length': res.headers['content-length'],
 						'x-amz-acl': 'public-read'
@@ -96,7 +101,7 @@ exports.scheduleSaveLocalPicture = function (queue, user) {
 		publishCallback = function (err) {
 			if (!err) {
 				console.log('Pushed %s on queue %s',
-							user.id, config.queue.jobTypes.cloneAssets);
+							user.id, config.queue.jobTypes.s3Assets);
 				qDef.resolve(user);
 			} else {
 				console.log('Can not schedule');
@@ -104,7 +109,7 @@ exports.scheduleSaveLocalPicture = function (queue, user) {
 			}
 		};
 
-	queue.publish(config.queue.jobTypes.cloneAssets,
+	queue.publish(config.queue.jobTypes.s3Assets,
 		{userId: user.id},
 		{type: 'saveLocalPicture', deliveryMode: 2},
 		publishCallback);
@@ -125,6 +130,15 @@ exports.deleteAccount = function (req, res) {
 	var user = req.user;
 
 	// Delete user, allow signals to clean up related objects
+	exports.removeUserAssets(user._id, req.app.s3client)
+		.then(function (res) {
+			debugger;
+			resp.jsonp({error: null});
+		}, function (err) {
+			debugger
+			resp.jsonp({error: err});
+		});
+	return ;
 	user.remove(function (err, doc) {
 		if (err) {
 			res.jsonp({error: err});
@@ -139,4 +153,44 @@ exports.deleteAccount = function (req, res) {
 		}
 	});
 
+};
+
+/**
+ * Remove all user assets on S3 related to userId
+ * Returns promise that resolves with Array of all removed assets URLs
+ */
+exports.removeUserAssets = function(userId, s3client) {
+	var listQ = Q.defer(),
+		allDelQ = Q.defer(),
+		prefix = 'users/' + userId + '/',
+
+		req = s3client.list({prefix: prefix}, function (err, data) {
+
+			var promises = [];
+
+			if (err || (data.Code && data.Code === "AccessDenied")) {
+				listQ.reject(err || data.Code);
+			} else {
+				listQ.resolve(prefix);
+
+				_(data.Contents).each(function (obj) {
+					var delQ = Q.defer(),
+						url = prefix + obj.Key;
+					promises.push(delQ.promise);
+					s3client.del(url)
+						.on('response', function (res) {
+							console.log("Removed", url, res.statusCode);
+							delQ.resolve(url);
+						})
+						.end();
+
+				});
+
+				Q.all(promises).then(function (res) { allDelQ.resolve(res) },
+									 function (er) { allDelQ.reject(er) });
+
+			}
+		});
+
+	return listQ.promise.then(function() { return allDelQ.promise });
 };

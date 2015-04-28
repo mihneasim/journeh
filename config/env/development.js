@@ -9,7 +9,7 @@ module.exports = {
 			server: 'amqp://localhost:5672',
 			jobTypes: {
 				instagramFeed: 'instagram.feed',
-				cloneAssets: 'cloneassets',
+				s3Assets: 's3assets',
 			}
 	},
 	aws: {

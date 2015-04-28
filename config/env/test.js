@@ -6,7 +6,7 @@ module.exports = {
 			server: 'amqp://localhost:5672',
 			jobTypes: {
 				instagramFeed: 'test.instagram.feed',
-				cloneAssets: 'test.cloneassets'
+				s3Assets: 'test.s3assets'
 			}
 	},
 	port: 3001,

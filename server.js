@@ -24,7 +24,7 @@ var mqueue = amqp.createConnection({url: config.queue.server});
 
 mqueue.on('ready', function() {
 		mqueue.queue(config.queue.jobTypes.instagramFeed, {durable: true});
-		mqueue.queue(config.queue.jobTypes.cloneAssets, {durable: true});
+		mqueue.queue(config.queue.jobTypes.s3Assets, {durable: true});
 		console.log('Queues are open on express web server');
 });
 

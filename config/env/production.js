@@ -6,7 +6,7 @@ module.exports = {
 			server: process.env.RABBITMQ_URL || 'amqp://localhost:5672',
 			jobTypes: {
 				instagramFeed: 'dev.instagram.feed',
-				cloneAssets: 'dev.cloneassets'
+				s3Assets: 'dev.s3assets'
 			}
 	},
 	assets: {

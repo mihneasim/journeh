@@ -129,27 +129,14 @@ exports.me = function(req, res) {
 exports.deleteAccount = function (req, res) {
 	var user = req.user;
 
-	// Delete user, allow signals to clean up related objects
-	exports.removeUserAssets(user._id, req.app.s3client)
-		.then(function (res) {
-			debugger;
-			resp.jsonp({error: null});
-		}, function (err) {
-			debugger
-			resp.jsonp({error: err});
-		});
-	return ;
 	user.remove(function (err, doc) {
 		if (err) {
 			res.jsonp({error: err});
 		} else {
-			// TODO we should rem all objects with user._id prefix using queue
-			req.app.s3client.del('/users/' + user._id + '/' + user.picture)
-			.on('response',
-				function(resp){
-					resp.jsonp({error: null});
-				}
-			).end();
+			req.app.mqueue.publish(config.queue.jobTypes.s3Assets,
+				{userId: user._id},
+				{type: 'removeUserAssets', deliveryMode: 2});
+			res.jsonp({error: null});
 		}
 	});
 

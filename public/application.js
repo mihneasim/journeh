@@ -16,7 +16,9 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 		   'self',
 		   // Allow loading from our assets domain.  Notice the difference between * and **.
 		   'http://scontent*.cdninstagram.com/**',
-		   'https://scontent*.cdninstagram.com/**'
+		   'https://scontent*.cdninstagram.com/**',
+		   'http://d1cda9fzfodqce.cloudfront.net/**',
+		   'https://d1cda9fzfodqce.cloudfront.net/**'
  ]);
 });
 

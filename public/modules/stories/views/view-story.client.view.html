@@ -23,9 +23,9 @@
 
 		<div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
 			<div ng-repeat="contentBit in vm.story.content">
-				<img class="gram" ng-show="contentBit.images && !contentBit.videos" ng-src="{{contentBit.images.standard_resolution.url}}" />
+				<img class="gram" ng-show="contentBit.images && !contentBit.videos" ng-src="{{ contentBit.images.standard_resolution.url | cdnize }}" />
 				<video class="gram" ng-show="contentBit.videos" width="720" height="720" controls>
-					<source ng-src="{{contentBit.videos.standard_resolution.url}}" type="video/mp4">
+					<source ng-src="{{ contentBit.videos.standard_resolution.url | cdnize }}" type="video/mp4">
 				</video>
 
 				<p data-ng-bind-html="contentBit.caption" class="lead"></p>

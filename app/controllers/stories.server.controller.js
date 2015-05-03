@@ -4,6 +4,10 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+	Q = require('q'),
+	request = require('request'),
+	uuid = require('node-uuid'),
+	config = require('../../config/config'),
 	errorHandler = require('./errors'),
 	Story = mongoose.model('Story'),
 	_ = require('lodash');
@@ -21,6 +25,10 @@ exports.create = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			req.app.mqueue.publish(config.queue.jobTypes.s3Assets,
+				{userId: user._id, storyId: story._id},
+				{type: 'storyCopyAssets', deliveryMode: 2});
+
 			res.jsonp(story);
 		}
 	});
@@ -118,4 +126,117 @@ exports.hasAuthorization = function(req, res, next) {
 		});
 	}
 	next();
+};
+
+exports.copyAssets = function (storyId, userId, s3client) {
+
+	var switchOriginWithOurs = function switchOriginWithOurs (field, ours) {
+		if (!field.originalUrl) {
+			field.originalUrl = field.url;
+		}
+		field.url = ours;
+		return field;
+	};
+
+	/**
+	 * Return array of lambda getters for defined fields on content
+	 */
+	var getters = function getters (content) {
+		var found = [];
+		if (content.images.standard_resolution.url) {
+			found.push.apply(found, [
+				function (s) { return s.images.low_resolution; },
+				function (s) { return s.images.standard_resolution; },
+				function (s) { return s.images.thumbnail; }
+			]);
+		}
+		if (content.videos.standard_resolution.url) {
+			found.push.apply(found, [
+				function (s) { return s.videos.low_resolution; },
+				function (s) { return s.videos.standard_resolution; }
+			]);
+		}
+		return found;
+	};
+
+	var getOurUrl = function getOurUrl(field) {
+		var qDef = Q.defer();
+
+		request(field.url, {encoding: null}, function(err, res, body) {
+			var req,
+				extension = field.url.match(/\.[^.]+$/)[0],
+				filename = uuid.v1() + extension,
+				s3path = '/users/' + userId + '/stories/' + storyId + '/' + filename;
+
+			if(!err && res.statusCode === 200) {
+				req = s3client.put(s3path, {
+					'Content-Type': res.headers['content-type'],
+					'Content-Length': res.headers['content-length'],
+					'x-amz-acl': 'public-read'
+				});
+
+				req.on('response', function(res) {
+					console.log('response from s3, status:', res.statusCode, 'url:', req.url);
+					qDef.resolve(req.url);
+				});
+
+				req.on('error', function(err) {
+					console.log('error from s3', err);
+					qDef.reject(err);
+				});
+
+				req.end(body);
+			} else {
+				qDef.reject(err);
+			}
+		});
+
+		return qDef.promise;
+
+	};
+
+	var finalQ = Q.defer();
+
+	Story.findOne({_id: storyId}).populate('user').exec(function (err, story) {
+
+		var acumulator = Q.when(); // chain all here
+
+		if (story !== null) {
+			_.each(story.content, function (content){
+				_.each(getters(content), function (getter) {
+					var field = getter(content);
+					acumulator = acumulator.then(function (){
+						return getOurUrl(field).then(
+							function (url) {
+								switchOriginWithOurs(field, url);
+								return url;
+							},
+							// just skip errors as resolved and solve all
+							function (err) {
+								console.log('Error copying asset ', err);
+								return null;
+							}
+						);
+					});
+				});
+			});
+
+			acumulator.then(
+				function () {
+					console.log('Story after s3 is ', story);
+					story.save(function (err) {
+						finalQ.resolve(story);
+					});
+				},
+				function (err) {
+					console.log('Error in acumulator', err);
+					finalQ.reject(err);
+				}
+			);
+
+		}
+	});
+
+	return finalQ.promise;
+
 };

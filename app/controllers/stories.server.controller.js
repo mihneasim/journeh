@@ -26,7 +26,7 @@ exports.create = function(req, res) {
 			});
 		} else {
 			req.app.mqueue.publish(config.queue.jobTypes.s3Assets,
-				{userId: user._id, storyId: story._id},
+				{userId: req.user._id, storyId: story._id},
 				{type: 'storyCopyAssets', deliveryMode: 2});
 
 			res.jsonp(story);

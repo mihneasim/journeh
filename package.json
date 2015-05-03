@@ -42,6 +42,7 @@
 		"mongoose-url-slugs": "~0.0.10",
 		"mongoose-geojson-schema": "~0.0.2",
 		"node-paginate-anything": "~0.0.5",
+		"node-uuid": "~1.4.3",
 		"passport-instagram": "~0.1.2",
 		"q": "~1.1.2",
 		"request": "~2.42.0"

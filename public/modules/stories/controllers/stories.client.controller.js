@@ -2,9 +2,9 @@
 
 angular.module('stories').controller('StoriesController',
 	['$scope', '$stateParams', '$location', '$http', '$q',
-	'GeoUtils', 'Stories', 'Grams', 'Authentication',
+	'GeoUtils', 'Stories', 'Grams', 'Authentication', '$window',
 	function($scope, $stateParams, $location, $http, $q,
-			 GeoUtils, Stories, Grams, Authentication) {
+			 GeoUtils, Stories, Grams, Authentication, $window) {
 
 		var vm = this,
 			pollNew = function pollNew(delay) {
@@ -27,6 +27,7 @@ angular.module('stories').controller('StoriesController',
 			};
 
 		$scope.authentication = Authentication;
+		$scope.$window = $window;
 		vm.perPage = 12; // pickable instagrams pagination items
 		vm.step = 1;
 		vm.story = {
@@ -136,6 +137,9 @@ angular.module('stories').controller('StoriesController',
 
 		vm.initViewStory = function() {
 			vm.center = {};
+			vm.mapDefaults = {
+				scrollWheelZoom: false
+			};
 
 			vm.story = Stories.get({storySlug: $stateParams.storySlug},
 				function () {

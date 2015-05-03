@@ -60,9 +60,19 @@
 
 		<div ng-if="vm.story.locations && vm.story.locations.features.length"
 			class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-			<leaflet geojson="vm.geojson" bounds="vm.bounds" center="vm.center" height="250" width="100%"></leaflet>
+			<leaflet geojson="vm.geojson" bounds="vm.bounds" center="vm.center"
+				defaults="vm.mapDefaults"
+				height="250px" width="100%"></leaflet>
 		</div>
 
+	</div>
+	<div class="row">
+		<div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+			<dir-disqus disqus-shortname="journeh"
+					 disqus-identifier="{{ 'story/' + vm.story._id }}"
+					 disqus-url="{{ $window.location.href }}">
+			</dir-disqus>
+		</div>
 	</div>
 
 </section>

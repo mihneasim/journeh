@@ -155,7 +155,7 @@ exports.removeUserAssets = function(userId, s3client) {
 
 			var promises = [];
 
-			if (err || (data.Code && data.Code === "AccessDenied")) {
+			if (err || (data.Code && data.Code === 'AccessDenied')) {
 				listQ.reject(err || data.Code);
 			} else {
 				listQ.resolve(prefix);
@@ -166,18 +166,18 @@ exports.removeUserAssets = function(userId, s3client) {
 					promises.push(delQ.promise);
 					s3client.del(url)
 						.on('response', function (res) {
-							console.log("Removed", url, res.statusCode);
+							console.log('Removed', url, res.statusCode);
 							delQ.resolve(url);
 						})
 						.end();
 
 				});
 
-				Q.all(promises).then(function (res) { allDelQ.resolve(res) },
-									 function (er) { allDelQ.reject(er) });
+				Q.all(promises).then(function (res) { allDelQ.resolve(res); },
+									 function (er) { allDelQ.reject(er); });
 
 			}
 		});
 
-	return listQ.promise.then(function() { return allDelQ.promise });
+	return listQ.promise.then(function() { return allDelQ.promise; });
 };

@@ -10,6 +10,7 @@ var ApplicationConfiguration = (function() {
 	applicationModuleVendorDependencies.push('angular-lodash');
 	applicationModuleVendorDependencies.push('angular-medium-editor');
 	applicationModuleVendorDependencies.push('leaflet-directive');
+	applicationModuleVendorDependencies.push('angularUtils.directives.dirDisqus');
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {

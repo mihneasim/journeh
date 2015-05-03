@@ -45,7 +45,9 @@ module.exports = {
 				'public/lib/angular-medium-editor/dist/angular-medium-editor.js',
 
 				'public/lib/leaflet/dist/leaflet-src.js',
-				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.js'
+				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.js',
+
+				'public/lib/angular-utils-disqus/dirDisqus.js'
 			]
 		},
 		css: [

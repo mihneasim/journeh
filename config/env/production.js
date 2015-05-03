@@ -40,7 +40,9 @@ module.exports = {
 					'/public/lib/angular-medium-editor/dist/angular-medium-editor.min.js',
 
 					'/public/lib/leaflet/dist/leaflet.js',
-					'/public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js'
+					'/public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js',
+
+					'/public/lib/angular-utils-disqus/dirDisqus.js'
 				]
 			}
 		},

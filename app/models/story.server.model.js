@@ -35,14 +35,13 @@ var StorySchema = new Schema({
 				trim: true
 			},
 			images: {
-				low_resolution: { url: String, width: Number, height: Number },
-				thumbnail: { url: String, width: Number, height: Number },
-				standard_resolution: { url: String, width: Number, height: Number }
+				low_resolution: { url: String, width: Number, height: Number, originalUrl: String },
+				thumbnail: { url: String, width: Number, height: Number, originalUrl: String },
+				standard_resolution: { url: String, width: Number, height: Number, originalUrl: String }
 			},
 			videos: {
-				low_bandwith: { url: String, width: Number, height: Number },
-				low_resolution: { url: String, width: Number, height: Number },
-				standard_resolution: { url: String, width: Number, height: Number }
+				low_resolution: { url: String, width: Number, height: Number, originalUrl: String},
+				standard_resolution: { url: String, width: Number, height: Number, originalUrl: String }
 			},
 			location: GeoJSON.Feature,
 			gram: { type: Schema.ObjectId, ref: 'Gram' }

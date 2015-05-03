@@ -31,12 +31,16 @@ var app = require('./config/express')(db, mqueue, config.aws);
 
 var gramController = require('./app/controllers/grams'),
 	userController = require('./app/controllers/users'),
+	storiesController = require('./app/controllers/stories'),
 	task = {
 		saveLocalPicture: function (message, app) {
 			return userController.saveLocalPicture(message.userId, app.s3client);
 		},
 		removeUserAssets: function (message, app) {
 			return userController.removeUserAssets(message.userId, app.s3client);
+		},
+		storyCopyAssets: function (message, app) {
+			return storiesController.copyAssets(message.storyId, message.userId, app.s3client);
 		}
 	};
 

@@ -19,7 +19,8 @@
 						</p>
 					</div>
 					<bgf-pagination
-		 				per-page="vm.perPage"
+						per-page="vm.perPage"
+						auto-presets="false"
 						collection="grams"
 						template-url="/modules/core/views/parts/paginate-anything.html"
 						url="'/api/grams'">
@@ -28,13 +29,14 @@
 						<pickable-gram gram="gram" clickhandler="vm.toggleGram"></pickable-gram>
 					</div>
 					<div class="clearfix"></div>
-					<bgf-pagination
-		 				per-page="vm.perPage"
-						collection="grams"
-						passive="true"
-						template-url="/modules/core/views/parts/paginate-anything.html"
-						url="'/api/grams'">
-					</bgf-pagination>
+					<!--<bgf-pagination-->
+						<!--per-page="vm.perPage"-->
+						<!--auto-presets="false"-->
+						<!--collection="grams"-->
+						<!--passive="true"-->
+						<!--template-url="/modules/core/views/parts/paginate-anything.html"-->
+						<!--url="'/api/grams'">-->
+					<!--</bgf-pagination>-->
 				</div>
 				<div class="form-group" ng-show="vm.step==1">
 					<div class="bg-info">

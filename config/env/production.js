@@ -9,6 +9,7 @@ module.exports = {
 				s3Assets: 'dev.s3assets'
 			}
 	},
+	raven: process.env.RAVEN_DSN,
 	assets: {
 		cdn: {
 			root: process.env.CDN || '//cdn.journeh.com',

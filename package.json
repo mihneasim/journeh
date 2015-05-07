@@ -45,6 +45,7 @@
 		"node-uuid": "~1.4.3",
 		"passport-instagram": "~0.1.2",
 		"q": "~1.1.2",
+		"raven": "~0.7.3",
 		"request": "~2.42.0"
 	},
 	"devDependencies": {

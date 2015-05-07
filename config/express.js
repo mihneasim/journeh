@@ -18,12 +18,18 @@ var express = require('express'),
 	flash = require('connect-flash'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
+	knox = require('knox'),
 	path = require('path'),
-	knox = require('knox');
+	raven = require('raven');
 
 module.exports = function(db, mqueue, aws) {
 	// Initialize express app
 	var app = express();
+
+	// Raven (Sentry)
+	if (config.raven) {
+		app.use(raven.middleware.express(config.raven));
+	}
 
 	// Globbing model files
 	config.getGlobbedFiles('./app/models/**/*.js').forEach(function(modelPath) {

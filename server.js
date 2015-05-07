@@ -4,8 +4,8 @@
  */
 var init = require('./config/init')(),
 	config = require('./config/config'),
-	mongoose = require('mongoose'),
-	amqp = require('amqp');
+	amqp = require('amqp'),
+	mongoose = require('mongoose');
 
 /**
  * Main application entry file.

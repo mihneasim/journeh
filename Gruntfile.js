@@ -216,7 +216,7 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['lint', 'concurrent:default']);
+	grunt.registerTask('default', ['sass', 'lint', 'concurrent:default']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'concurrent:debug']);
@@ -228,7 +228,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('lint', ['jshint', 'csslint']);
 
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin', 's3', 'cloudfront']);
+	grunt.registerTask('build', ['sass', 'lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin', 's3', 'cloudfront']);
 
 	// Test task.
 	grunt.registerTask('test', ['test:server', 'test:client']);

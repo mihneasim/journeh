@@ -1,0 +1,18 @@
+$decent-padding: 40px;
+
+image.gram,
+video.gram
+{
+    padding: $decent-padding;
+}
+
+.storyForm {
+    .title {
+        width: 85%;
+        float: left;
+    }
+
+    button.toStep2 {
+        margin-left: 30px;
+    }
+}

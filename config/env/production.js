@@ -13,7 +13,10 @@ module.exports = {
 	assets: {
 		cdn: {
 			root: process.env.CDN || '//cdn.journeh.com',
-			css: '/public/dist/application.min.css',
+			css: [
+				'/public/dist/application.min.css',
+				'/public/dist/sass.min.css'
+			],
 			js: '/public/dist/application.min.js',
 			lib: {
 				css: [

@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
 		clientCSS: ['public/modules/**/*.css'],
+		clientSASS: ['public/modules/**/*.scss'],
 		mochaTests: ['app/tests/**/*.js']
 	};
 
@@ -48,6 +49,13 @@ module.exports = function(grunt) {
 					livereload: true
 				}
 			},
+			clientSASS: {
+				files: watchFiles.clientSASS,
+				tasks: ['sass'],
+				options: {
+					livereload: true
+				}
+			},
 			mochaTests: {
 				files: watchFiles.mochaTests,
 				tasks: ['test:server']
@@ -82,7 +90,8 @@ module.exports = function(grunt) {
 		cssmin: {
 			combine: {
 				files: {
-					'public/dist/application.min.css': '<%= applicationCSSFiles %>'
+					'public/dist/application.min.css': '<%= applicationCSSFiles %>',
+					'public/dist/sass.min.css': 'public/dist/sass.css'
 				}
 			}
 		},
@@ -124,6 +133,16 @@ module.exports = function(grunt) {
 				limit: 10
 			}
 		},
+		sass: {
+				options: {
+					sourceMap: true
+				},
+				dist: {
+					files: {
+						'public/dist/sass.css': 'public/modules/**/*.scss'
+					}
+				}
+			},
 		aws: {
 			accessKeyId: process.env.AWS_ID,
 			secretAccessKey: process.env.AWS_SECRET,
@@ -154,7 +173,8 @@ module.exports = function(grunt) {
 			distributionId: '<%= aws.distributionId %>',
 			invalidations: [
 			  '/public/dist/application.min.js',
-			  '/public/dist/application.min.css'
+			  '/public/dist/application.min.css',
+			  '/public/dist/sass.min.css'
 			]
 		  }
 		},

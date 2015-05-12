@@ -2,7 +2,7 @@
 	<div class="page-header">
 		<h1>New Story</h1>
 	</div>
-	<form name="storyForm" id="storyForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+	<form name="storyForm" id="storyForm" class="form-horizontal storyForm" data-ng-submit="create()" novalidate>
 	<fieldset>
 	<div class="row">
 		<div class="col-md-12">
@@ -51,8 +51,8 @@
 				</div>
 				<div ng-show="vm.step==1" class="form-group" ng-class="{ 'has-error': storyForm.title.$dirty && storyForm.title.$invalid }">
 					<div class="controls">
-						<input name="title" type="text" data-ng-model="vm.story.title" id="title" class="form-control" placeholder="Now choose a title for your story" required>
-						<button type="button" class="btn btn-primary" id="toStep2" ng-click="vm.goToStep2()">
+						<input name="title" type="text" data-ng-model="vm.story.title" id="title" class="form-control title" placeholder="Now choose a title for your story" required>
+						<button type="button" class="btn btn-primary toStep2" id="toStep2" ng-click="vm.goToStep2()">
 							Final step
 							<span class="glyphicon glyphicon-chevron-right"></span>
 						</button>

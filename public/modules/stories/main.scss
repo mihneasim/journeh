@@ -16,3 +16,37 @@ video.gram
         margin-left: 30px;
     }
 }
+
+
+.editable-gram {
+    padding: 10px;
+
+    .image-up-down {
+        width: 222px;
+    }
+
+    .remove{
+        margin-top: 12px;
+    }
+
+    .up-down, .remove {
+        padding-top: 30px;
+        float: left;
+        width: 2em;
+        font-size: 20px;
+        color: #999;
+    }
+
+    .image {
+        float: none;
+    }
+    .caption {
+        overflow: auto;
+        height: 150px;
+        width: 100%;
+    }
+}
+
+.form-group .bg-info {
+    padding: 15px;
+}

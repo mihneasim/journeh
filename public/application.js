@@ -18,7 +18,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 		   'http://scontent*.cdninstagram.com/**',
 		   'https://scontent*.cdninstagram.com/**',
 		   'http://d1cda9fzfodqce.cloudfront.net/**',
-		   'https://d1cda9fzfodqce.cloudfront.net/**'
+		   'https://d1cda9fzfodqce.cloudfront.net/**',
+		   'http://s3.amazonaws.com/journeh.dew/**',
+		   'https://s3.amazonaws.com/journeh.dew/**',
+		   'http://s3.amazonaws.com/journeh/**',
+		   'https://s3.amazonaws.com/journeh/**'
  ]);
 });
 

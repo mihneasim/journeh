@@ -1,9 +1,15 @@
-$decent-padding: 40px;
+$desktop: "only screen and (min-width : 800px)";
 
-image.gram,
+img.gram,
 video.gram
 {
-    padding: $decent-padding;
+    max-width: 100%;
+    height: auto;
+    padding: 2em 0;
+    @media #{$desktop} {
+        width: 100%;
+        padding: 3em 2em;
+    }
 }
 
 .storyForm {

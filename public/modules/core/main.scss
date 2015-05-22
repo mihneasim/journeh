@@ -1,0 +1,41 @@
+$desktop: "only screen and (min-width : 800px)";
+
+.content {
+	margin-top: 50px;
+}
+.undecorated-link:hover {
+	text-decoration: none;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+.ng-invalid.ng-dirty{
+    border-color:#FA787E;
+}
+.ng-valid.ng-dirty{
+    border-color:#78FA89;
+}
+
+.jumbotron.homepage {
+	margin-top: -40px;
+	color: white;
+	padding: 0;
+	margin: 0;
+	background-color: transparent;
+	overflow: hidden;
+
+	@media #{$desktop} {
+	    margin-top: -80px;
+	    height: 300px;
+	}
+
+        video {
+	    z-index: -1;
+            width: 100%;
+	    height: auto;
+            background: url('/modules/core/img/poster_retouched.jpg') no-repeat;
+            background-size: cover;
+        }
+
+
+}

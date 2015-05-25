@@ -28,7 +28,7 @@
 					<source ng-src="{{ contentBit.videos.standard_resolution.url | cdnize }}" type="video/mp4">
 				</video>
 
-				<p data-ng-bind-html="contentBit.caption" class="lead"></p>
+				<p data-ng-bind-html="contentBit.caption" ng-class="{lead: $first}"></p>
 			</div>
 		</div>
 

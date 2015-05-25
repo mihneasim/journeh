@@ -17,8 +17,7 @@ $desktop: "only screen and (min-width : 800px)";
     margin-top: 50px;
 }
 
-section.main.content {
-    section.container {
+.col-xs-12 {
     padding-left: 0;
     padding-right: 0;
 
@@ -26,17 +25,28 @@ section.main.content {
         padding-left: 2em;
         padding-right: 2em;
     }
+}
+
+section.main.content {
+    section.container {
+        padding-left: 0;
+        padding-right: 0;
+
+        @media #{$desktop} {
+            padding-left: 2em;
+            padding-right: 2em;
+        }
 
     }
 
     .row {
-    margin-left: 0;
-    margin-right: 0;
+        margin-left: 0;
+        margin-right: 0;
 
-    @media #{$desktop} {
-        margin-left: 2em;
-        margin-right: 2em;
-    }
+        @media #{$desktop} {
+            margin-left: 2em;
+            margin-right: 2em;
+        }
 
     }
 }
@@ -77,4 +87,64 @@ section.main.content {
         }
     }
 
+}
+
+// Stories
+
+
+img.gram,
+video.gram
+{
+    max-width: 100%;
+    height: auto;
+    padding: 2em 0;
+    @media #{$desktop} {
+        width: 100%;
+        padding: 3em 2em;
+    }
+}
+
+.storyForm {
+    .title {
+        width: 85%;
+        float: left;
+    }
+
+    button.toStep2 {
+        margin-left: 30px;
+    }
+}
+
+
+.editable-gram {
+    padding: 10px;
+
+    .image-up-down {
+        width: 222px;
+    }
+
+    .remove{
+        margin-top: 12px;
+    }
+
+    .up-down, .remove {
+        padding-top: 30px;
+        float: left;
+        width: 2em;
+        font-size: 20px;
+        color: #999;
+    }
+
+    .image {
+        float: none;
+    }
+    .caption {
+        overflow: auto;
+        height: 150px;
+        width: 100%;
+    }
+}
+
+.form-group .bg-info {
+    padding: 15px;
 }

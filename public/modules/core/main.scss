@@ -83,7 +83,8 @@ section.main.content {
         top: -30px;
         margin-right: -300px;
         @media #{$desktop} {
-            top: -66px;
+            top: -150px;
+            margin-right: -500px;
         }
     }
 

@@ -1,13 +1,10 @@
 $desktop: "only screen and (min-width : 800px)";
 
-.content {
-	margin-top: 50px;
-}
 .undecorated-link:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-	display: none !important;
+    display: none !important;
 }
 .ng-invalid.ng-dirty{
     border-color:#FA787E;
@@ -16,26 +13,68 @@ $desktop: "only screen and (min-width : 800px)";
     border-color:#78FA89;
 }
 
+.content {
+    margin-top: 50px;
+}
+
+section.main.content {
+    section.container {
+    padding-left: 0;
+    padding-right: 0;
+
+    @media #{$desktop} {
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+
+    }
+
+    .row {
+    margin-left: 0;
+    margin-right: 0;
+
+    @media #{$desktop} {
+        margin-left: 2em;
+        margin-right: 2em;
+    }
+
+    }
+}
+
 .jumbotron.homepage {
-	margin-top: -40px;
-	color: white;
-	padding: 0;
-	margin: 0;
-	background-color: transparent;
-	overflow: hidden;
+    margin-top: -40px;
+    color: white;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    overflow: hidden;
 
-	@media #{$desktop} {
-	    margin-top: -80px;
-	    height: 300px;
-	}
+    @media #{$desktop} {
+        margin-top: -80px;
+        height: 300px;
+    }
 
-        video {
-	    z-index: -1;
-            width: 100%;
-	    height: auto;
-            background: url('/modules/core/img/poster_retouched.jpg') no-repeat;
-            background-size: cover;
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    video {
+        z-index: -1;
+        width: 100%;
+        height: auto;
+        background: url('/modules/core/img/poster_retouched.jpg') no-repeat;
+        background-size: cover;
+    }
+
+    span.sitename {
+        z-index: 1;
+        position: relative;
+        top: -30px;
+        margin-right: -300px;
+        @media #{$desktop} {
+            top: -66px;
         }
-
+    }
 
 }

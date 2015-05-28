@@ -83,8 +83,8 @@ module.exports.getJavaScriptAssets = function(includeTests) {
 module.exports.getCSSAssets = function() {
 	var output = this.getGlobbedFiles(this.assets.lib.css, 'public');
 	if (this.assets.cdn) {
-		output = output.concat(this.getCdnUrl(this.assets.cdn.css));
 		output = _.union(output, _.map(this.assets.cdn.lib.css, this.getCdnUrl, this));
+		output = _.union(output, _.map(this.assets.cdn.css, this.getCdnUrl, this));
 	} else {
 		output = _.union(output, this.getGlobbedFiles([this.assets.css], 'public'));
 	}

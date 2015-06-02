@@ -27,6 +27,18 @@ $desktop: "only screen and (min-width : 800px)";
     }
 }
 
+.fade {
+    opacity: 1;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+
+}
+.fade:hover {
+    opacity: 0.5;
+}
+
+
 section.main.content {
     section.container {
         padding-left: 0;
@@ -148,4 +160,28 @@ video.gram
 
 .form-group .bg-info {
     padding: 15px;
+}
+
+
+// Create story
+
+.grams-grid {
+    padding: 10px;
+    float: left;
+
+    .pickable-gram {
+        img {
+            padding: 10px;
+            float: left;
+            cursor: pointer;
+        }
+    }
+    .pickable-gram.selected {
+        img {
+            padding: 0;
+            float: left;
+            cursor: pointer;
+            border: 10px solid #ccc;
+        }
+    }
 }

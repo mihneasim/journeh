@@ -10,7 +10,7 @@
 					<div class="alert alert-danger" role="alert" ng-cloak ng-show="!grams">
 						Oh dear. We couldn't find any instagram posts. Are you sure you posted some?
 						I say you book a plane, bus or train ticket, charge your phone, hit the road,
-						and get back hear when you have some awesome instragrams!
+						and get back hear when you have some awesome instagrams!
 					</div>
 					<div ng-show="grams" class="bg-info">
 						<p class=" text-info">This is your Instagram library.</p>
@@ -25,7 +25,7 @@
 						template-url="/modules/core/views/parts/paginate-anything.html"
 						url="'/api/grams'">
 					</bgf-pagination>
-					<div style="padding: 10px; float: left;" ng-repeat="gram in grams track by gram._id">
+					<div class='grams-grid' ng-repeat="gram in grams track by gram._id">
 						<pickable-gram gram="gram" clickhandler="vm.toggleGram"></pickable-gram>
 					</div>
 					<div class="clearfix"></div>

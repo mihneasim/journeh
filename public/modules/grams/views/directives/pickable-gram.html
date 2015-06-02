@@ -1,3 +1,3 @@
-<div>
-    <img ng-click="clickhandler(gram)" ng-src="{{gram.images.thumbnail.url}}" style="padding: 10px; float: left;" />
+<div class='pickable-gram' ng-class='{selected: gram.selected}'>
+    <img ng-click='clickhandler(gram)' class='fade' ng-src='{{gram.images.thumbnail.url}}' />
 </div>

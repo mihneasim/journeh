@@ -58,8 +58,10 @@ angular.module('stories').controller('StoriesController',
 		vm.toggleGram = function(gram) {
 			var pos = vm.story.grams.indexOf(gram);
 			if (pos !== -1) {
+				gram.selected = false;
 				vm.story.grams.splice(pos, 1);
 			} else {
+				gram.selected = true;
 				vm.story.grams.push(gram);
 			}
 		};

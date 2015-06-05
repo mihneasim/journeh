@@ -3,16 +3,9 @@
 		<h1>Stories</h1>
 	</div>
 	<div class="list-group">
-		<a data-ng-repeat="story in stories" data-ng-href="/stories/{{story.slug}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="story.created | date:'mediumDate'"></span>
-				by
-				<span data-ng-bind="story.user.displayName"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="story.title"></h4>
-			<p class="list-group-item-text" data-ng-bind="story.content[0].caption"></p>
-		</a>
+		<div data-ng-repeat="story in stories">
+			<story-summary story="story"></story-summary>
+		</div>
 	</div>
 	<div class="alert alert-warning text-center" data-ng-if="stories.$resolved && !stories.length">
 		No stories yet, why don't you <a href="/stories/create">create one</a>?

@@ -1,0 +1,12 @@
+<div class="story-summary">
+    <a data-ng-href="/stories/{{story.slug}}" class="list-group-item">
+            <small class="list-group-item-text">
+                    Posted on
+                    <span data-ng-bind="story.created | date:'mediumDate'"></span>
+                    by
+                    <span data-ng-bind="story.user.displayName"></span>
+            </small>
+            <h4 class="list-group-item-heading" data-ng-bind="story.title"></h4>
+            <p class="list-group-item-text" data-ng-bind-html="story.content[0].caption"></p>
+    </a>
+</div>

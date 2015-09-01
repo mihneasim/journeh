@@ -10,7 +10,7 @@ angular.module('stories').directive('storySummary', ['$window', function ($windo
         },
         template: ('<rich-summary title="story.title" thumbnails="thumbnails"' +
                   ' images="images" caption="story.content[0].caption" ' +
-                  ' href="\'/stories/\' + story.slug"></rich-summary>'),
+                  ' href="\'/stories/\' + story.slug" limit="\'5\'"></rich-summary>'),
         link: function ($scope, $element, attrs) {
             var haveImage = $window._.filter($scope.story.content, function (el) {
                 return el.images;

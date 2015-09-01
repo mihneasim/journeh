@@ -185,3 +185,18 @@ video.gram
         }
     }
 }
+
+// List stories
+.list-group .rich-summary {
+    margin-bottom: 1em;
+
+    h3, summary {
+        margin-left: 3%;
+    }
+    summary {
+        padding-bottom: 1em;
+    }
+}
+.list-group .rich-summary:hover {
+    background-color: #dfdfdf;
+}

@@ -2,9 +2,13 @@
 	<div class="page-header">
 		<h1>Stories</h1>
 	</div>
-	<div class="list-group">
-		<div data-ng-repeat="story in stories">
-			<story-summary story="story"></story-summary>
+	<div class="row">
+		<div class="list-group col-md-8">
+			<div data-ng-repeat="story in stories">
+				<story-summary story="story"></story-summary>
+			</div>
+		</div>
+		<div class="col-md-4">
 		</div>
 	</div>
 	<div class="alert alert-warning text-center" data-ng-if="stories.$resolved && !stories.length">

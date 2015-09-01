@@ -11,6 +11,7 @@ var ApplicationConfiguration = (function() {
 	applicationModuleVendorDependencies.push('angular-medium-editor');
 	applicationModuleVendorDependencies.push('leaflet-directive');
 	applicationModuleVendorDependencies.push('angularUtils.directives.dirDisqus');
+	applicationModuleVendorDependencies.push('mhng.directives.richSummary');
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {

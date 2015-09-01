@@ -25,7 +25,8 @@ module.exports = {
 				'public/lib/medium-editor/dist/css/medium-editor.css',
 				'public/lib/medium-editor/dist/css/themes/bootstrap.css',
 
-				'public/lib/leaflet/dist/leaflet.css'
+				'public/lib/leaflet/dist/leaflet.css',
+				'public/lib/mhng-richsummary/styles.css'
 			],
 			js: [
 				'//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js',
@@ -47,7 +48,8 @@ module.exports = {
 				'public/lib/leaflet/dist/leaflet-src.js',
 				'public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.js',
 
-				'public/lib/angular-utils-disqus/dirDisqus.js'
+				'public/lib/angular-utils-disqus/dirDisqus.js',
+				'public/lib/mhng-richsummary/dirRichSummary.js'
 			]
 		},
 		css: [

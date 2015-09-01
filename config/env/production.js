@@ -26,7 +26,8 @@ module.exports = {
 					'/public/lib/medium-editor/dist/css/medium-editor.min.css',
 					'/public/lib/medium-editor/dist/css/themes/bootstrap.min.css',
 
-					'/public/lib/leaflet/dist/leaflet.css'
+					'/public/lib/leaflet/dist/leaflet.css',
+					'/public/lib/mhng-richsummary/styles.css'
 				],
 				js: [
 					'/public/lib/angular/angular.min.js',
@@ -46,7 +47,8 @@ module.exports = {
 					'/public/lib/leaflet/dist/leaflet.js',
 					'/public/lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js',
 
-					'/public/lib/angular-utils-disqus/dirDisqus.js'
+					'/public/lib/angular-utils-disqus/dirDisqus.js',
+					'/public/lib/mhng-richsummary/dirRichSummary.js'
 				]
 			}
 		},

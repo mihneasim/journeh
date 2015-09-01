@@ -4,16 +4,24 @@ angular.module('stories').directive('storySummary', ['$window', function ($windo
 
     return {
         restrict: 'E',
-        replace: true,
+        //replace: true,
         scope: {
             story: '='
         },
-        templateUrl: '/modules/stories/views/directives/story-summary.html',
+        template: ('<rich-summary title="story.title" thumbnails="thumbnails"' +
+                  ' images="images" caption="story.content[0].caption" ' +
+                  ' href="\'/stories/\' + story.slug"></rich-summary>'),
         link: function ($scope, $element, attrs) {
-            var hasImage = $window._.find($scope.story.content, function (el) {
+            var haveImage = $window._.filter($scope.story.content, function (el) {
                 return el.images;
             });
-            $scope.coverImage = hasImage ? hasImage.images : undefined;
+            $scope.images = $window._.map(haveImage, function (value) {
+                return value.images.standard_resolution.url;
+            });
+            $scope.thumbnails = $window._.map(haveImage, function (value) {
+                return value.images.thumbnail.url;
+            });
+            $scope.thumbnails = $scope.thumbnails || $scope.images;
         }
     };
 
